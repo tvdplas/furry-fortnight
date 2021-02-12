@@ -1,0 +1,5 @@
+https://www.jesuisundev.com/en/why-developers-hate-php/
+https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
+https://medium.com/@vinaykumar_23714/why-is-php-a-bad-choice-for-startups-and-programmers-in-2020-38f2e24a5179
+https://whydoesitsuck.com/why-does-php-suck/
+https://blog.codinghorror.com/php-sucks-but-it-doesnt-matter/
