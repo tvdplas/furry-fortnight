@@ -1,6 +1,7 @@
 #cactiman{
-    Width:310px;
-    Height:300px;
-    position: absolute;
-    left: 200px;
+   
+    border-radius: 50%;
+}
+#cato{
+    border-radius: 50%;
 }
