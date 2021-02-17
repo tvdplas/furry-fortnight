@@ -1,5 +1,3 @@
-https://www.jesuisundev.com/en/why-developers-hate-php/
-https://eev.ee/blog/2012/04/09/php-a-fractal-of-bad-design/
-https://medium.com/@vinaykumar_23714/why-is-php-a-bad-choice-for-startups-and-programmers-in-2020-38f2e24a5179
-https://whydoesitsuck.com/why-does-php-suck/
-https://blog.codinghorror.com/php-sucks-but-it-doesnt-matter/
+https://www.codeproject.com/Questions/752251/I-want-to-debugging-on-notepadplusplus
+https://www.reddit.com/r/vim/comments/8yuht0/vim_for_debugging/
+https://code.visualstudio.com/docs/editor/debugging

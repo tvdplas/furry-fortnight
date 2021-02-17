@@ -1,18 +1,16 @@
-# Death to PHP
-## Or do we actually want that?
+# Text editor comparison
+## Which text editor is right for you?
+Come and find out!!!
 
-### The good
-- Easy to find a job
-- Kieken 
+## Quick overview
+ Reason | VSCode | Vim | Notepad++ 
+--------|--------|-----|-----------
+Built-in debugger|✔|~|X
+󠁾󠁾󠁾󠁾󠁾Easy to use|✔|X|✔
+Powerful shortcuts|✔|✔|~
 
-
-### The bad
-- Hella security issues
-- Easy to learn but hard to master
-- Does not fit with the current web landscape
-- Not strongly typed (not that js is, but we have typescript for that)
-- Allows for much freedom.... which causes errors
-- Middle of the road for fastness
-- Causes you to need to invest more in other areas bc it's hard to contribute to other things than web with php.
-
-### The ugly
+## Customer reviews
+Customer|Comment
+--------|-----------
+Bart van Dooren | Notepad++'s easy of use and inuitive interface has had me coming back for years
+Thomas van der Plas | VSCode's built in debugging features have been a great help with many of my projects
