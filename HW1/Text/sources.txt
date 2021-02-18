@@ -6,3 +6,5 @@ https://www.vim.org/
 https://www.vim.org/about.php
 https://www.vim.org/6k/features.en.txt
 https://dev.to/iggredible/why-i-use-vim-2f40
+https://www.elegantthemes.com/blog/resources/notepad-review-a-powerful-free-code-editor-packed-with-features
+https://github.com/notepad-plus-plus/nppPluginList/blob/master/doc/plugin_list_x64.md
