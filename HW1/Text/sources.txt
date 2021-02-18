@@ -5,3 +5,4 @@ https://code.visualstudio.com/learn
 https://www.vim.org/
 https://www.vim.org/about.php
 https://www.vim.org/6k/features.en.txt
+https://dev.to/iggredible/why-i-use-vim-2f40
