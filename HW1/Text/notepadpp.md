@@ -9,9 +9,11 @@ By keeping the classics in mind, but not being afraid to improve on them, Notepa
 ### Keep it fresh
 Tired of the boring white text editor? Change it! Notepad++ makes it easy to fully customize its user interface to your liking. Window colors, accents, and even syntax highlighting for over 50 built in languages can all be changed to make the editor more yours.
 ### Plug? In!
-A wide selection of user created plugins can help you be even more productive when using Notepad++. Everything from more powerful indentation management tools to difference comparisons, if you need it it's pretty likely someone'll have made a plugin for it. A complete list of all user maintained plugins can even be found [here!](https://github.com/notepad-plus-plus/nppPluginList/blob/master/doc/plugin_list_x64.md)
+A wide selection of user created plugins can help you be even more productive when using Notepad++. Everything from more powerful indentation management tools to difference comparisons, if you need it it's pretty likely someone'll have made a plugin for it. A large community of active users maintains a list of publicly available extensions which can be used to enhance your editing experience.
 ### Small but efficient
-Did you know that a Notepad++ installation only 4 MB's of space? That's tiny - only the size of about 3 full hd .png images. And that small program size makes it hyper-efficient too; Notepad++ prides itself in being an eco-friendly text editor, because it has very low cpu usage and thus wastes less energy!
+A Notepad++ installation only takes up about 4 MB's of space. That's tiny - only the size of about 3 full hd .png images! And that small program size makes it efficient too; Notepad++ prides itself in being an eco-friendly text editor. Its low resource usage equates to less wasted energy!
+### Portable
+Notepad++ comes in two different flavours: the standard installable executable, and a portable version which doesn't need to be installed. This means that you can take your own custom Notepad++ setup anywhere by using a usb stick, and never have to worry about installing it on a new machine. 
 
 ## Useful links:
 [Homepage](https://notepad-plus-plus.org/)
