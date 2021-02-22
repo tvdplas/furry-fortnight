@@ -16,4 +16,4 @@ Even though it might not look like it at first sight, Vim is very beginner frien
 ## Useful links:
 [Homepage](https://www.vim.org/)
 [Download](https://www.vim.org/download.php)
-[Scripts and extensions](https://www.vim.org/scripts/script_search_results.php)
+[Scripts and Extensions](https://www.vim.org/scripts/script_search_results.php)

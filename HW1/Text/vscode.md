@@ -16,4 +16,4 @@ No wasted time. No lost code ever again.
 ## Useful links:
 [Download](https://code.visualstudio.com/)
 [About](https://code.visualstudio.com/learn)
-[Extension store](https://marketplace.visualstudio.com/VSCode)
+[Extension Marketplace](https://marketplace.visualstudio.com/VSCode)
