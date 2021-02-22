@@ -14,5 +14,6 @@ Source control is built right into the application, so you don't ever have to wo
 No wasted time. No lost code ever again.
 
 ## Useful links:
-[Download]()
-[More info]()
+[Download](https://code.visualstudio.com/)
+[About](https://code.visualstudio.com/learn)
+[Extension store](https://marketplace.visualstudio.com/VSCode)
