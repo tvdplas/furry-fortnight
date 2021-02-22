@@ -9,3 +9,4 @@ https://dev.to/iggredible/why-i-use-vim-2f40
 https://www.elegantthemes.com/blog/resources/notepad-review-a-powerful-free-code-editor-packed-with-features
 https://github.com/notepad-plus-plus/nppPluginList/blob/master/doc/plugin_list_x64.md
 https://www.slant.co/options/42/~vim-review
+https://www.g2.com/products/notepad/reviews#survey-response-4564263
