@@ -12,3 +12,8 @@ If the language exists, there'll be Vim syntax highlighting for it. Make code ea
 And if you don't like the default colors, just change them to your liking! Everything's customizable in the config files.
 ### User friendly
 Even though it might not look like it at first sight, Vim is very beginner friendly. Learn the basic switching of text input and command mode, and then you're off to the races at incredible speed!
+
+## Useful links:
+[Homepage](https://www.vim.org/)
+[Download](https://www.vim.org/download.php)
+[Plugins and ]

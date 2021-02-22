@@ -12,3 +12,7 @@ Customizing your instance of vscode has never been easier. Themes can be downloa
 ### Built in source control
 Source control is built right into the application, so you don't ever have to worry about difficult git command line arguments. Just clone a github repository, and you're ready to get to coding. 
 No wasted time. No lost code ever again.
+
+## Useful links:
+[Download]()
+[More info]()
