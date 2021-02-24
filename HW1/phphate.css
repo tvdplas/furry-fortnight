@@ -113,17 +113,17 @@ td{
     padding: 10px 20px;
     border: 1px solid #555555;
 }
-#middle{
+.middle{
     text-align: center;
 }
-#start{
+.start{
     border-left: #121212;
 }
-#end{
+.end{
     text-align: center;
     border-right: #121212;
 }
-#table_img{
+.table_img{
     width: 80%;
     height: 50%;
 }
