@@ -153,7 +153,11 @@ td{
     padding: 0% 2% 3%;
     float: left;
 }
-
+.review_img{
+    width: 30%;
+    padding: 0% 2% 3%;
+    float: right;
+}
 @media screen and (max-width: 1040px) {
     footer {
         flex-direction: column;
