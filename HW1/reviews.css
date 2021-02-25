@@ -153,6 +153,13 @@ td{
     padding: 0% 2% 3%;
     float: left;
 }
+
+@media screen and (max-width: 1040px) {
+    footer {
+        flex-direction: column;
+        margin-top: 17%
+    }
+}
 @media screen and (max-width: 600px) {
     html {
         width: 100%;
@@ -195,5 +202,8 @@ td{
     }
     footer>p {
         margin: 1% 2.5% 10px;
+    }
+    .logo{
+        width: 7%;
     }
 }
