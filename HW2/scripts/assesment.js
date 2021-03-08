@@ -32,18 +32,18 @@ class FillInTheBlank extends Question {
 
         // Adds the question text as a header
         let header = document.createElement("h3");
-        header.innerText = this.questionText;
+        header.appendChild(document.createTextNode(this.questionText));
         
         //The entire question is wrapped in a paragraph for styling and accessibility reasons
         let questionInput = document.createElement("p");
         
         // First part of question
         let beginning = document.createElement("span");
-        beginning.innerText = this.qPart1 + " ";
+        beginning.appendChild(document.createTextNode(this.qPart1 + " "));
         
         //Last part of question
         let ending = document.createElement("span");
-        ending.innerText = " " + this.qPart2;
+        ending.appendChild(document.createTextNode(" " + this.qPart2));
         
         //Input in the middle of the question
         let input = document.createElement("input");
@@ -51,7 +51,7 @@ class FillInTheBlank extends Question {
         
         // Button to check for answer
         let button = document.createElement("button");
-        button.innerText = "Check answer"
+        button.appendChild(document.createTextNode("Check answer"));
         button.onclick = () => console.log(this.checkAnswer(input.value)) 
 
         //Build the entire node
@@ -80,7 +80,7 @@ class MultipleChoice extends Question {
 
         // Adds the question text as a header
         let header = document.createElement("h3");
-        header.innerText = this.questionText;
+        header.appendChild(document.createTextNode(this.questionText));
         section.appendChild(header);
         
         //For every possible answer, add a radiobutton to the node
@@ -97,7 +97,7 @@ class MultipleChoice extends Question {
             
             //Create the label
             let label = document.createElement("label");
-            label.innerText = option;
+            label.appendChild(document.createTextNode(option));
             label.setAttribute("for", option);
 
             //Build up this node and add it to the section
@@ -108,7 +108,7 @@ class MultipleChoice extends Question {
 
         //Finally, add the button
         let button = document.createElement("button");
-        button.innerText = "Check answer"
+        button.appendChild(document.createTextNode("Check answer"));
         button.onclick = () => { 
             //Get the selected button (if it exists), and then check if its value if correct
             console.log(this.checkAnswer(document.querySelector(`input[name="${this.id}"]:checked`)?.value)) 
@@ -119,8 +119,8 @@ class MultipleChoice extends Question {
     }
 }
 
-let fb = new FillInTheBlank('whahaha', 'beans', 1, 'how many', 'do you have to eat')
-let fb2 = new MultipleChoice('whahaha', 'how many', 2, ['how many', 'do you have to eat'])
+let fb = new FillInTheBlank('Fill in the blank', 'beans', 1, 'how many', 'do you have to eat')
+let fb2 = new MultipleChoice('Which of the following is not a discussed code editor?', 'Atom', 2, ['VSCode', 'Atom', 'Vim', 'Notepad++'])
 let fb3 = new MultipleChoice('whahaha', 'beans', 3, ['how many', 'do you have to eat'])
 document.getElementById('assesment-questions').appendChild(fb.generateElement())
 document.getElementById('assesment-questions').appendChild(fb2.generateElement())
