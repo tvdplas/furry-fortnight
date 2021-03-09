@@ -1,3 +1,6 @@
+*{
+    scroll-behavior: smooth;
+}
 @font-face {
     font-family: 'Helios Bold';
     src: url("font/HeliosBold.otf");
