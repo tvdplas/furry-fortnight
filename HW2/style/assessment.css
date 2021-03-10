@@ -79,3 +79,9 @@ input[type=text] {
     font-size: 1em;
     background-color: rgba(0,0,0,0);
 }
+
+@media screen and (min-width: 500px) {
+    .question__selectable, .question__fitbtext {
+        margin-left: 32px;
+    }
+}
