@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'Helios Bold';
+    src: url("../font/HeliosBold.otf");
+}
+@font-face {
+    font-family: 'Helios Regular';
+    src: url("../font/HeliosRegular.otf");
+}
+
+body {
+    background-color: #121212;
+}
+
+#assessment {
+    text-align: center;
+    font-family: 'Helios Bold';
+    color: white;
+}
+
+#assessment-questions{
+    font-family: 'Helios Regular';    
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.question {
+    border-bottom-style: solid;
+    border-bottom-color: gray;
+    border-bottom-width: thin;
+    padding-bottom: 3vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.question h3 {
+    margin-left: 12px;
+    margin-right: 12px
+}
+
+.question__selectable {
+    margin: 10px 5px
+}
+
+.question__fitbtext {
+    margin-left: 10px;
+    margin-right: 10px
+}
+
+.question button {
+    text-align: center;
+    padding: 12px 12px;
+    margin-top: 12px;
+    margin-left: 16px;
+    margin-right: 16px;
+    background-color: rgba(0,0,0,0);
+    border-radius: 16px;
+    border-style: solid;
+    border-color: white;
+    color: white;
+}
+
+.question__result {
+    text-align: center;
+    margin-bottom: 0px;
+    color: white;
+}
+
+.question.question--completed {
+    color: gray;
+}
+
+input[type=text] {
+    border: none;
+    outline: none;
+    border-bottom: 2px solid white;
+    color: white;
+    font-family: 'Helios Regular';
+    font-size: 1em;
+    background-color: rgba(0,0,0,0);
+}
+
+@media screen and (min-width: 500px) {
+    .question__selectable, .question__fitbtext {
+        margin-left: 32px;
+    }
+}
