@@ -54,7 +54,8 @@ a{
 aside a{
     font-size: 0.9em;
     padding: 1% 2%;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 4px;
     color: white;
     font-family: 'Helios Regular';
     margin: 0;
