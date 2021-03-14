@@ -3,11 +3,11 @@
 
 @font-face {
     font-family: 'Helios Bold';
-    src: url("font/HeliosBold.otf");
+    src: url("../font/HeliosBold.otf");
 }
 @font-face {
     font-family: 'Helios Regular';
-    src: url("font/HeliosRegular.otf");
+    src: url("../font/HeliosRegular.otf");
 }
 
 *{
