@@ -1,6 +1,14 @@
 @import url("page-template.css");
 
-.post {
+.usercomments{
+    margin-top: 7%;
+    margin-bottom: 0%;
+    width: 100%;
+    height: 70%;
+    height: max-content;
+}
+
+.usercomments__post {
     height: auto;
     width: 55%;
     margin: 0vh auto 7%;
@@ -10,32 +18,33 @@
     display: flex;
     justify-content: flex-start;
 }
-.wrap_right {
+.usercomments--wrapright {
     text-align: center;
     position: absolute;
     right: 0;
 }
-.wrap_left {
+.usercomments--wrapleft {
     text-align: center;
     position: absolute;
     left: 0;
 }
-.post_img {
+.usercomments__profilepic {
     border-radius: 50%;
     width: 50%;
+    max-width: 300px;
     text-align: center;
     margin: 0px auto;
+    height: auto;   
 }
-.text {
+.usercomments__commenttext {
     margin: 0px 10px 10px 20px;
 }
-.name {
+.usercomments__username {
     font-size: 0.8em;
     margin: 0px auto 10%;
     text-align: center;
     word-break: break-all;
 }
-
 
 h2{
     text-align: center;
@@ -61,54 +70,53 @@ td{
     border: 1px solid #555555;
     padding: 10px 20px;
 }
-.middle{
+
+.features {
+    margin-top: 7%;
+}
+
+.features__middlecolumn{
     text-align: center;
 }
-.start{
+.features__leftcolumn{
     border-left: #121212;
 }
-.end{
+.features__rightcolumn{
     text-align: center;
     border-right: #121212;
 }
-.table_img{
+.features__tableheaderimg{
     width: 80%;
     height: auto;
 }
-#img{
+
+#backgroundimg{
     margin-top: 10%;
     width: 100%;
     height: 70%;
 }
-#Ccmel{
-    margin-top: 7%;
-    margin-bottom: 0%;
-    width: 100%;
-    height: 70%;
-    height: max-content;
-}
 
 @media screen and (min-width: 1920px) {
-    .wrap_left{
+    .usercomments--wrapleft{
         margin-left: 8%;
     }
-    .wrap_right{
+    .usercomments--wrapright{
         margin-right: 8%;
     }
 }
 
 @media screen and (max-width: 1040px) {
-    .wrap_left {
+    .usercomments--wrapleft {
         text-align: left;
         width: 20%;
         left: 1%;
     }
-    .wrap_right {
+    .usercomments--wrapright {
         text-align: right;
         width: 20%;
         right: 1%;
     }
-    .post_img {
+    .usercomments__profilepic {
         width: 100%;
     }
 }
@@ -116,31 +124,31 @@ td{
     h2{
         margin-bottom: 10%;
     }
-    #img{
+    #backgroundimg{
         height: 30%;
     }
-    .post {
+    .usercomments__post {
         margin: 0% 40% 8%;
     }
-    .wrap_left {
+    .usercomments--wrapleft {
         text-align: left;
         width: 30%;
         margin-left: 3%;
         max-width: 140px;
     }
-    .wrap_right {
+    .usercomments--wrapright {
         text-align: left;
         width: 30%;
         margin-left: 3%;
         left: 0;
     }
-    .post_img {
+    .usercomments__profilepic {
         width: 100%;
         max-width: 120px;
         text-align: left;
     }
 
-    .name{
+    .usercomments__username{
         text-align: left;
         margin-left: 10%;
     }

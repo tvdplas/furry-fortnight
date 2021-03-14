@@ -77,12 +77,12 @@ td{
     font-family: 'Helios Bold';
     font-size: 1.4em;
 }
-.logo{
+.contact__icon{
     width: 5%;
     padding: 0% 2% 3%;
     float: left;
 }
-.review_img{
+.review__logo{
     width: 30%;
     padding: 0% 2% 3%;
     float: right;
