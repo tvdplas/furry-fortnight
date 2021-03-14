@@ -1,0 +1,50 @@
+@import url("header-nav.css");
+@import url("footer.css");
+
+@font-face {
+    font-family: 'Helios Bold';
+    src: url("font/HeliosBold.otf");
+}
+@font-face {
+    font-family: 'Helios Regular';
+    src: url("font/HeliosRegular.otf");
+}
+
+*{
+    scroll-behavior: smooth;
+}
+
+html{
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+}
+body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+}
+
+h2 {
+    color: white;
+    font-family: 'Helios Bold';
+}
+
+p{
+    font-family: 'Helios Regular';
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: 0.5px;
+}
+
+@media screen and (max-width: 600px) {
+    html {
+        width: 100%;
+        height: 100%;
+        font-size: 10px;
+    }
+    a{
+        padding: 2%;
+    }
+}
