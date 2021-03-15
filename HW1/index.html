@@ -5,124 +5,151 @@
     <title>
         Code Editors
     </title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Trying to figure out which text editor is right for you? Read reviews and user feedback now!">
+    <meta name="keywords" content="Text Editor, VSCode, Notepad++, VIM, Review">
     <meta charset="UTF-8">
 </head>
 
 <body>
     <header id="top">
-        <img class="code_img" src="images/code.jpg" alt="Source code background">
+        <img class="code_img" src="https://jump.nl/wp-content/uploads/2019/05/code-1839406_1920-825x445.jpg"
+            alt="Image of source code on a computer screen, which is used as a backdrop for the site header">
         <h1>
             What code editor should you use?
         </h1>
     </header>
 
     <nav>
-        <a href="Notepad++.html"> Notepad++ review</a>
-        <a href="VIM.html"> VIM review</a>
-        <a href="VScode.html"> VScode review</a>
+        <a href="notepadpp.html"> Notepad++ review</a>
+        <a href="vim.html"> VIM review</a>
+        <a href="vscode.html"> VScode review</a>
         <a href="index.html"> Main page</a>
     </nav>
 
-    <article id="table">
+    <article class="features">
+        <h2>Features</h2>
         <table>
-            <tr>
-                <th></th>
-                <th>VScode</th>
-                <th>Vim</th>
-                <th>Notepad++</th>
-            </tr>
-            <tr>
-                <th></th>
-                <th><a href="VScode.html"><img class="table_img" src="images/vs-code.png" alt="Visual Studio Code logo"></a></th>
-                <th><a href="VIM.html"><img class="table_img" src="images/vim.png" alt="Vim logo"></a></th>
-                <th><a href="Notepad++.html"><img class="table_img" src="images/notepad.png" alt="Notepad++ logo"></a></th>
-            </tr>
-            <tr>
-                <td class="start">Built-in debugger</td>
-                <td class="middle">✔</td>
-                <td class="middle">~</td>
-                <td class="end">X</td>
-            </tr>
-            <tr>
-                <td class="start">󠁾󠁾󠁾󠁾󠁾Easy to use</td>
-                <td class="middle">✔</td>
-                <td class="middle">X</td>
-                <td class="end">✔</td>
-            </tr>
-            <tr>
-                <td class="start">Powerful shortcuts</td>
-                <td class="middle">✔</td>
-                <td class="middle">✔</td>
-                <td class="end">~</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>VScode</th>
+                    <th>Vim</th>
+                    <th>Notepad++</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><a href="VScode.html"><img class="features__tableheaderimg"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/1024px-Visual_Studio_Code_1.35_icon.svg.png"
+                                alt="The Visual Studio Code logo, a lightblue x in which the topright and bottom right ends are connected by another blue line."></a>
+                    </th>
+                    <th><a href="VIM.html"><img class="features__tableheaderimg"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Vimlogo.svg/1022px-Vimlogo.svg.png"
+                                alt="The Vim logo. The word Vim with a capitalised V in lightgray overlayed on a green diamond."></a>
+                    </th>
+                    <th><a href="Notepad++.html"><img class="features__tableheaderimg"
+                                src="http://tech-wiki.net/images/a/a8/Notepad%2B%2B_logo.png"
+                                alt="The Notepad++ logo. A small green chameleon with large eyes sitting on top of a yellow pencil."></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="features__leftcolumn">Built-in debugger</td>
+                    <td class="features__middlecolumn">✔</td>
+                    <td class="features__middlecolumn">~</td>
+                    <td class="features__rightcolumn">X</td>
+                </tr>
+                <tr>
+                    <td class="features__leftcolumn">󠁾󠁾󠁾󠁾󠁾Easy to use</td>
+                    <td class="features__middlecolumn">✔</td>
+                    <td class="features__middlecolumn">X</td>
+                    <td class="features__rightcolumn">✔</td>
+                </tr>
+                <tr>
+                    <td class="features__leftcolumn">Powerful shortcuts</td>
+                    <td class="features__middlecolumn">✔</td>
+                    <td class="features__middlecolumn">✔</td>
+                    <td class="features__rightcolumn">~</td>
+                </tr>
+            </tbody>
         </table>
     </article>
 
-    <article id="img">
-        <img class="code_img" src="images/code_2.jpg" alt="Source code background">
-    </article>
+    <div id="backgroundimg">
+        <img class="code_img" src="https://pic2.zhimg.com/v2-ed87318f824c6f041ef12847db75556b_1440w.jpg?source=172ae18b"
+            alt="A photo of a screen displaying two text editor windows, each with a blue background and source code being displayed.">
+    </div>
 
-    <article id="Ccmel">
+    <article class="usercomments">
         <h2>
             User experience
         </h2>
-        
-        <h3 style="display: none;">Comment</h3>
-        <section class="post">
-            <section class="wrap_left">
-                <img class="post_img" src="images/he.png" alt="Walking white cat on pink background profile picture">
-                <p class="name">Tomec</p>
-            </section>
-            <section class="text">
+
+        <div class="usercomments__post">
+            <div class="usercomments--wrapleft">
+                <img class="usercomments__profilepic"
+                    src="https://bsaber.com/wp-content/uploads/2020/03/6adb5a70087c3ab68a2a82e2a4de13beffe098f5-300x300.png"
+                    width="300" height="300" alt="Walking white cat on pink background profile picture">
+                <p class="usercomments__username">Tomec</p>
+            </div>
+            <div class="usercomments__commenttext">
                 <p>VSCode's built in debugging features have saved me from just using console.log() statements, and the
                     themes makes it look really pretty. Other than that, I'd say the default shortcuts are easy to learn
                     and can be easily transfered to an IDE like Visual Studio.</p>
-            </section>
-        </section>
-        
-        <section class="post">
-            <section class="wrap_right">
-                <img class="post_img" src="images/cactiman.jpg" alt="cactus man profile picture">
-                <p class="name">Bart van Doorn</p>
-            </section>
-            <section class="text">
+            </div>
+        </div>
+
+        <div class="usercomments__post">
+            <div class="usercomments--wrapright">
+                <img class="usercomments__profilepic"
+                    src="https://64.media.tumblr.com/88f7d2e52ea549a572a3c8af6990d153/tumblr_p4dlup6dZV1wdlt16o1_1280.jpg"
+                    width="300" height="300"
+                    alt="Cactus wearing a beige coat, sunglasses and a brown cowboy hat in the desert with a sunset in the background profile picture">
+                <p class="usercomments__username">Bart van Doorn</p>
+            </div>
+            <div class="usercomments__commenttext">
                 <p>Even though Notepad++ was forced upon me while I was learning to code, I have learned to appreciate
                     it a lot. Its simple interface makes sense, and it doesn't annoy you with features that you won't
                     use. It might be a little barebones out of the box, but the supported plugins easily make up for
                     that.</p>
-            </section>
-        </section>
-        
-        <section class="post">
-            <section class="wrap_left">
-                <img class="post_img" src="images/vimmer.png" alt="Vim logo edited with comic sans underscript profile picture">
-                <p class="name">VimConnoisseur87</p>
-            </section>
-            <section class="text">
+            </div>
+        </div>
+
+        <div class="usercomments__post">
+            <div class="usercomments--wrapleft">
+                <img class="usercomments__profilepic" src="images/vimmer.png" width="300" height="300"
+                    alt="Vim logo edited with the red underscript 'is life' in the Comic Sans font profile picture">
+                <p class="usercomments__username">VimConnoisseur87</p>
+            </div>
+            <div class="usercomments__commenttext">
                 <p>Everyone who doesn't use Vim is doing something wrong in their life; imagine not using the advanced
                     features and shortcuts that Vim offers. Having a graphical user interface? Not necessary whatsoever.
                     If you're not typing at least 150 words per minute in your editor switching between input and
                     editing more every 5 seconds, don't even try to become a programmer.</p>
-            </section>
-        </section>
-        
-        <section class="post">
-            <section class="wrap_right">
-                <img class="post_img" src="images/eagle.jpg" alt="Bald eagle profile picture">
-                <p class="name">xx_BaldEagle_xx</p>
-            </section>
-            <section class="text">
+            </div>
+        </div>
+
+        <div class="usercomments__post">
+            <div class="usercomments--wrapright">
+                <img class="usercomments__profilepic"
+                    src="https://opimedia.azureedge.net/-/media/images/grt/editorial/articles/magazine-articles/2016/07-01/bald-eagles-and-golden-eagles/bald-eagle-square-jpg.jpg"
+                    width="300" height="300"
+                    alt="Bald eagle facing left with the blue sky in the background profile picture">
+                <p class="usercomments__username">xx_BaldEagle_xx</p>
+            </div>
+            <div class="usercomments__commenttext">
                 <p>How do I exit Vim I've been stuck here for the past 3 days I miss my wife and kids</p>
-            </section>
-        </section>
+            </div>
+        </div>
     </article>
 
     <footer>
         <p>Copyright 2021-2021 by <a href="https://twitter.com/stayutazen/status/1362050387742760960"> XiaoHavers.</a>
             All Rights Reserved. </p>
-        <p><a href="Contact.html">About us</a></p>
+        <p><a href="contact.html">About us</a></p>
         <p><a href="index.html#top">Go to top</a></p>
     </footer>
 </body>
