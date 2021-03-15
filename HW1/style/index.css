@@ -93,7 +93,15 @@ td{
 #backgroundimg{
     margin-top: 10%;
     width: 100%;
-    height: 70%;
+    height: 50%;
+    object-fit: cover;
+    object-position: 0% 0%;
+    background-image: url("https://pic2.zhimg.com/v2-ed87318f824c6f041ef12847db75556b_1440w.jpg?source=172ae18b");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
 
 @media screen and (min-width: 1920px) {
