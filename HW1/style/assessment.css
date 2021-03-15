@@ -9,14 +9,19 @@
     src: url("../font/HeliosRegular.otf");
 }
 
-body {
-    background-color: #121212;
-}
-
 #assessment {
     text-align: center;
     font-family: 'Helios Bold';
     color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+#assessment-backdrop {
+    background-color: #1e1e1e;
+    max-width: 550px;
 }
 
 #assessment-questions{
@@ -33,6 +38,10 @@ body {
     padding-bottom: 3vh;
     display: flex;
     flex-direction: column;
+}
+
+.question:last-child{
+    border-bottom-style: none;
 }
 
 .question h3 {
