@@ -79,8 +79,10 @@ td{
 }
 .contact__icon{
     width: 5%;
-    padding: 0% 2% 3%;
-    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+    float:left;
+    display: inline;
 }
 .review__logo{
     width: 30%;
