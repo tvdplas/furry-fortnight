@@ -119,6 +119,7 @@ function changeElements(currentElement){
 //Changes are only made when pressing the submit button
 submitButton.onclick = function(){
     changeElements(currentElement);
+    menu.style.display = "none";
 }
 
 //Menu is invisible untill the button is clicked
