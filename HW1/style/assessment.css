@@ -77,8 +77,9 @@
     color: white;
 }
 
-.question.question--completed {
-    color: gray;
+.question--completed * {
+    color: gray !important;
+    border-bottom: gray !important;
 }
 
 input[type=text] {

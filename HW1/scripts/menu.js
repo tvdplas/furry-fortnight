@@ -18,6 +18,7 @@ elements.forEach(item => {
         element.setAttribute("id", item);
         element.setAttribute("name", "elements");
         element.setAttribute("value", item);
+        //Uses onchange attribute because the addEventHandler throws errors in this scenario.
         element.setAttribute("onchange", "changeRadio(this)");
         selectElement.appendChild(element);
         let label = document.createElement("label");
@@ -117,17 +118,17 @@ function changeElements(currentElement){
 }
 
 //Changes are only made when pressing the submit button
-submitButton.onclick = function(){
+submitButton.addEventListener("click", function(){
     changeElements(currentElement);
     menu.style.display = "none";
-}
+});
 
 //Menu is invisible untill the button is clicked
-menuButton.onclick = function(){
+menuButton.addEventListener("click", function(){
     menu.style.display = "block";
-}
+});
 
 //Menu becomes invisible again when close is pressed
-close.onclick = function(){
+close.addEventListener("click", function(){
     menu.style.display = "none";
-}
+});

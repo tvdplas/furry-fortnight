@@ -75,7 +75,7 @@ footer>p>a {
     width: 50%;
 }
 
-select {
+#menu select {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
@@ -92,7 +92,7 @@ select {
     font-size: 0.85em;
 }
 
-label{
+#menu label{
     font-family: 'Helios Regular';
     margin-left: 5%;
     margin-bottom: 5%;
@@ -131,13 +131,17 @@ input[type=color]{
     width: 50%;
 }
 
+#menu h2 {
+    text-align: center;
+}
+
 
 @media screen and (max-width: 1040px) {
     footer {
         flex-direction: column;
         margin-top: 17%
     }
-    label{
+    #menu label{
         width: 40%;
     }
     #submit{
@@ -163,11 +167,11 @@ input[type=color]{
         position: absolute;
         right: 20%;
     }
-    select {
+    #menu select {
         font-size: 1em;
         width: 52%;
     }
-    label{
+    #menu label{
         width: 30%;
     }
     #submit{

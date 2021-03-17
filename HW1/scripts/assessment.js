@@ -102,11 +102,11 @@ class FillInTheBlank extends Question {
         input.setAttribute("type", "text");
         input.setAttribute("size", this.correctAnswer.length)
         
-        this.button.onclick = () => {
+        this.button.addEventListener("click", () => {
             if (this.checkAnswer(input.value)) {
                 input.setAttribute("disabled", "true");
             }
-        }
+        });
 
         //Build the entire node
         questionInput.appendChild(beginning);
@@ -154,14 +154,14 @@ class MultipleChoice extends Question {
         });
 
         //Set button onclick
-        this.button.onclick = () => {
+        this.button.addEventListener("click", () => {
             if (this.checkAnswer(document.querySelector(`input[name="q${this.id}"]:checked`)?.value)) {
                 // If the answer was correct, block new input
                 document.getElementsByName(`q${this.id}`).forEach(e => {
                     e.setAttribute("disabled", true)
                 })
             }
-        }
+        });
 
         return this.section;
     }
