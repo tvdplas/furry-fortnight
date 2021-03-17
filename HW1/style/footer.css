@@ -18,14 +18,161 @@ footer>p>a {
     margin: 0;
 }
 
+#menu_button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1em;
+    margin: 0% 2.5%;
+    cursor: pointer;
+}
+
+#menu_button p{
+    margin: 0%;
+    text-underline-offset: 4px;
+    text-decoration: underline;
+}
+
+#menu {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+#menu_content {
+    background-color: #222222;
+    margin: auto;
+    padding: 20px;
+    width: 60%;
+    display: flex;
+}
+
+#close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+#close:hover,
+#close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#select_element{
+    border-right-style: solid;
+    border-color: #737373;
+    border-width: 2px;
+    width: 50%;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    border: none;
+    padding: 10px;
+    line-height: 1;
+    border-radius: 5px;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #494949;
+    background-position-x: 95%;
+    width: 40%;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: 'Helios Regular';
+    font-size: 0.85em;
+}
+
+label{
+    font-family: 'Helios Regular';
+    margin-left: 5%;
+    margin-bottom: 5%;
+    font-size: 1.3em;
+    color: rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    width: 20%;
+}
+
+#submit{
+    background-color: #494949;
+    border: none;
+    padding: 10px;
+    width: 30%;
+    margin-left: 25%;
+    margin-top: 5%;
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: 'Helios Regular';
+    border-radius: 5px;
+}
+
+input[type=color]{
+    border: 0;
+    background-color: transparent;
+}
+
+#select_element input[type=radio]{
+    margin-left: 25%;
+    margin-bottom: 5%;
+    transform: scale(1.5);
+    
+}
+
+#modify_element{
+    width: 50%;
+}
+
+
 @media screen and (max-width: 1040px) {
     footer {
         flex-direction: column;
         margin-top: 17%
     }
+    label{
+        width: 40%;
+    }
+    #submit{
+        margin-left: 45%;
+    }
 }
 @media screen and (max-width: 601px) {
     footer {
         margin-top: 17%
+    }
+    #select_element{
+        border-right-style: none;
+        border-bottom-style: solid;
+        width: 100%;
+    }
+    #modify_element{
+        width: 100%;
+    }
+    #menu_content{
+        flex-direction: column;
+    }
+    #close{
+        position: absolute;
+        right: 20%;
+    }
+    select {
+        font-size: 1em;
+        width: 52%;
+    }
+    label{
+        width: 30%;
+    }
+    #submit{
+        margin-left: 35%;
+        padding: 5px;
+        width: 40%;
     }
 }
