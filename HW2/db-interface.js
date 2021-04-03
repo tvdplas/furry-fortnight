@@ -1,7 +1,10 @@
+let fs = require("fs")
+let path = require("path")
 var sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database("./hw2/uwu.db");
 
 function SetupDB() {
+    let topics = JSON.parse(fs.readFileSync(path.resolve("./HW2/topics.json")).toString())
     db.serialize(() => {
         db.run(`
             CREATE TABLE Topics(
@@ -35,6 +38,39 @@ function SetupDB() {
                 CONSTRAINT MCQ_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
             );
         `)
+
+        topics.forEach((t, tindex) => {
+            db.run(`
+                INSERT INTO Topics 
+                VALUES (?, ?, ?)
+            `,
+            [`t${tindex}`, t.title, t.description])
+
+            t.quizes.forEach((q, qindex) => {
+                db.run(`
+                    INSERT INTO Quizes
+                    VALUES (?, ?, ?)
+                `,
+                [`t${tindex}`, `t${tindex}q${qindex}`, q.title])
+
+                q.questions.forEach((question, questionID) => {
+                    db.run(`
+                        INSERT INTO Questions
+                        VALUES (?, ?, ?, ?, ?)
+                    `,
+                    [`t${tindex}q${qindex}`, `t${tindex}q${qindex}-${questionID}`,
+                        question.qtext, question.qanswer, question.qtype])
+
+                    question.qoptions.forEach(o => {
+                        db.run(`
+                            INSERT INTO MCQuestions
+                            VALUES (?, ?)
+                        `,
+                        [`t${tindex}q${qindex}-${questionID}`, o])   
+                    })
+                })
+            })
+        });
     });
 }
 

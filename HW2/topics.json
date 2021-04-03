@@ -1,0 +1,134 @@
+[
+{
+    "title": "VSCode",
+    "description": "Specific questions about the VSCode text editor.",
+    "quizes": [
+        {
+            "title": "VSCode - Basics",
+            "questions": [
+                {
+                    "qtext": "What does VSCode stand for?",
+                    "qanswer": "Visual Studio Code",
+                    "qtype": "MCQ",
+                    "qoptions": ["Version Select Code", "Visual Studio Community", "Version Studio Code"]
+                }, 
+                {
+                    "qtext": "Where can you download more extensions for VSCode?",
+                    "qanswer": "Marketplace",
+                    "qtype": "OPEN",
+                    "qoptions": []
+                },
+                {
+                    "qtext": "Is source control built into VSCode, or is it an extension that needs to be downloaded?",
+                    "qanswer": "Built-in",
+                    "qtype": "MCQ",
+                    "qoptions": []
+                }
+            ]
+        },
+        {   
+            "title": "VSCode - Advanced",
+            "questions": [
+                {
+                    "qtext": "What is the auto code completion tool used by VSCode called?",
+                    "qanswer": "Intellisense",
+                    "qtype": "OPEN",
+                    "qoptions": []
+                },
+                {
+                    "qtext": "On what platform is VSCode not offered?",
+                    "qanswer": "Android",
+                    "qtype": "MCQ",
+                    "qoptions": ["Windows", "macOS", "Linux"]
+                },
+                {
+                    "qtext": "What is the window called that displays errors within your code?",
+                    "qanswer": "Problems",
+                    "qtype": "MCQ",
+                    "qoptions": ["Errors", "Faults", "Warnings"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "title": "Vim",
+    "description": "Specifics about the Vim text editor.",
+    "quizes": [
+        {
+            "title": "Vim - Basics",
+            "questions": [
+                {
+                    "qtext": "How long does it take a beginner to get started in Vim? Give your answer in minutes.",
+                    "qanswer": "30",
+                    "qtype": "OPEN",
+                    "qoptions": []
+                }, 
+                {
+                    "qtext": "How many built in languages does Vim support?",
+                    "qanswer": ">200",
+                    "qtype": "MCQ",
+                    "qoptions": ["150-200", "125-150", "<125"]
+                }
+            ]
+        },
+        {   
+            "title": "Vim - Advanced",
+            "questions": [
+                {
+                    "qtext": "What isn’t one of the advantages of a fully text based interface?",
+                    "qanswer": "More intuitive navigation",
+                    "qtype": "MCQ",
+                    "qoptions": ["SSH compatibility", "Less distraction", "Less resource intensive"]
+                },
+                {
+                    "qtext": "What is not a name of a feature used by Vim’s shortcuts?",
+                    "qanswer": "Maglinks",
+                    "qtype": "MCQ",
+                    "qoptions": ["Chainable motions", "Operators"]
+                }
+            ]
+        }
+    ]
+},
+{
+    "title": "Notepad++",
+    "description": "Specifics about the Notepad++ text editor.",
+    "quizes": [
+        {
+            "title": "Notepad++ - Basics",
+            "questions": [
+                {
+                    "qtext": "How many languages does Notepad++ support out of the box?",
+                    "qanswer": "50-75",
+                    "qtype": "MCQ",
+                    "qoptions": ["25-50", "<25", ">100"]
+                }, 
+                {
+                    "qtext": "What does Notepad++ pride itself with? ",
+                    "qanswer": "Its eco-friendliness",
+                    "qtype": "MCQ",
+                    "qoptions": ["Its small size", "Its cute logo"]
+                }
+            ]
+        },
+        {   
+            "title": "Notepad++ - Advanced",
+            "questions": [
+                {
+                    "qtext": "What is the version of Notepad++ called that does not need to be installed?",
+                    "qanswer": "Portable",
+                    "qtype": "OPEN",
+                    "qoptions": []
+                },
+                {
+                    "qtext": "How big is an installed version of Notepad++? Give your answer in MB’s.",
+                    "qanswer": "4",
+                    "qtype": "OPEN",
+                    "qoptions": []
+                }
+            ]
+        }
+    ]
+}
+]

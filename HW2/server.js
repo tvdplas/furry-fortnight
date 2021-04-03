@@ -4,7 +4,7 @@ const path = require("path");
 const dbi = require("./db-interface.js")
 const morgan = require("morgan")
 
-//dbi.SetupDB();
+dbi.SetupDB();
 app.use(morgan("combined"))
 app.use(express.static(path.resolve("./hw2/public")));
 
