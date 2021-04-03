@@ -1,0 +1,1 @@
+INSERT INTO Questions VALUES ('quiz2', 'fdsafsa', 'HEE', 'jhffjds', 'OPEN')

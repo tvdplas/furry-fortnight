@@ -76,18 +76,47 @@ function GetQuizQuestions(quizid, cb) {
 
 function GetQuizInfo(quizid, cb) {
     db.all(`
-        SELECT *
-        FROM Quizes
-        WHERE QuizID = ?
+        SELECT Quizes.TopicID, Quizes.QuizID, Quizes.QuizTitle, COUNT(Questions.QuizID) AS QuestionCount
+        FROM Quizes, Questions
+        WHERE Quizes.TopicID = ? AND Questions.QuizID = Quizes.QuizID
+        GROUP BY Questions.QuizID
     `, 
     [quizid],
     (err, res) => {
+        if (err) console.log(err)
         cb(res)
+    });
+}
+
+function GetTopics(cb) {
+    db.all(`
+        SELECT *
+        FROM Topics
+    `,
+    (err, res) => {
+        if (err) console.log(err)
+        cb(res)
+    });
+}
+
+function CheckAnswer(questionid, answer, cb) {
+    db.each(`
+        SELECT QuestionAnswer
+        FROM Questions
+        WHERE QuestionID = ?
+    `,
+    [questionid],
+    (err, res) => {
+        if (err) console.log(err)
+
+        cb({IsCorrect: res.QuestionAnswer == answer})
     });
 }
 
 module.exports = {
     GetQuizInfo: GetQuizInfo,
     GetQuizQuestions: GetQuizQuestions,
+    GetTopics: GetTopics,
+    CheckAnswer: CheckAnswer,
     SetupDB: SetupDB
 };
