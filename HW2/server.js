@@ -4,15 +4,35 @@ const path = require("path");
 const dbi = require("./db-interface.js")
 const morgan = require("morgan")
 
-dbi.SetupDB();
+//dbi.SetupDB();
 app.use(morgan("combined"))
 app.use(express.static(path.resolve("./hw2/public")));
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
+
+app.post("/register/", (req, res) => {
+    dbi.Register(req.body.un, req.body.pw, req.body.fn, (dbres) => {
+        res.send(dbres)
+    })
+});
+
+app.post("/login/", (req, res) => {
+    dbi.Login(req.body.un, req.body.pw, (dbres) => {
+        if (dbres.loggedIn) {
+            console.log("Setting cookie")
+            res.cookie("un", dbres.un, { maxAge:24*60*60*1000, httpOnly: false })
+            res.cookie("sk", dbres.sk, { maxAge:24*60*60*1000, httpOnly: false })
+        }
+        res.send(dbres)
+    })
+});
 
 app.get("/topics/", (req, res) => {
     dbi.GetTopics((topicres) => {
         res.send(topicres)
     });
-})
+});
 
 app.get("/quizes/:topicid/", (req, res) => {
     dbi.GetQuizInfo(req.params.topicid, (quizesres) => {
