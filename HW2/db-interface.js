@@ -38,7 +38,7 @@ function SetupDB() {
                 CONSTRAINT MCQ_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
             );
         `)
-
+        
         topics.forEach((t, tindex) => {
             db.run(`
                 INSERT INTO Topics 
