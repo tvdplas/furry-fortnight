@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
-app.get("/*", (req,res) => {
+app.get("/*", (req, res) => {
     console.log("yeppers")
     dbi.CheckLogin(req.body.un, req.body.sk, (dbres) => {
        console.log("yep")
