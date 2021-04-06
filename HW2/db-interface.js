@@ -183,7 +183,7 @@ function Register(un, pw, fn, cb) {
     `,
     [un, passwordHash.generate(pw + un), fn],
     (err) => {
-        if (err.errno == 19) {
+        if (err && err.errno == 19) {
             cb({err: "User already exists"})
         }  
     })
@@ -282,5 +282,6 @@ module.exports = {
     CheckAnswer: CheckAnswer,
     SetupDB: SetupDB,
     Register: Register,
-    Login: Login
+    Login: Login,
+    CheckLogin: CheckLogin
 };

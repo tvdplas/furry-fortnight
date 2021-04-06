@@ -11,6 +11,27 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
 
+app.get("/*", (req,res) => {
+    console.log("yeppers")
+    dbi.CheckLogin(req.body.un, req.body.sk, (dbres) => {
+       console.log("yep")
+        if (dbres.loggedIn) {
+            if(sk.maxAge >= (Date.now() - new Date().getTimezoneOffset()*60*1000))
+            {
+                console.log("cookie is valid")
+            }
+            else{
+                console.log("cookie is a")
+            }
+        }
+    
+            else{
+                console.log("cookie is b")
+            }
+        
+    })
+})
+
 app.post("/register/", (req, res) => {
     dbi.Register(req.body.un, req.body.pw, req.body.fn, (dbres) => {
         res.send(dbres)
