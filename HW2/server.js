@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const dbi = require("./db-interface.js")
 const morgan = require("morgan")
+var cookieParser = require('cookie-parser')
 
 //dbi.SetupDB();
 app.use(morgan("combined"))
@@ -10,25 +11,20 @@ app.use(express.static(path.resolve("./hw2/public")));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cookieParser())
 
-app.get("/*", (req, res) => {
-    console.log("yeppers")
-    dbi.CheckLogin(req.body.un, req.body.sk, (dbres) => {
-       console.log("yep")
+app.use("/*", (req, res, next) => {
+    dbi.CheckLogin(req.cookies.un, req.cookies.sk, (dbres) => {
         if (dbres.loggedIn) {
-            if(sk.maxAge >= (Date.now() - new Date().getTimezoneOffset()*60*1000))
-            {
-                console.log("cookie is valid")
-            }
-            else{
-                console.log("cookie is a")
-            }
+           console.log("Registered user request, un: " + req.cookies.un)
+
+           req.LoggedInUser = req.cookies.un
+           next()
+        } 
+        else if (dbres.err == "Session expired") {
+            //Redirect client to a different page if their login is expired
+            res.redirect('/register.html');
         }
-    
-            else{
-                console.log("cookie is b")
-            }
-        
     })
 })
 

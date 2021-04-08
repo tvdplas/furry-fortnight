@@ -1,3 +1,4 @@
+
 let fs = require("fs")
 let path = require("path")
 var sqlite3 = require('sqlite3').verbose();
@@ -209,7 +210,7 @@ function Login(un, pw, cb) {
             //session key maken -> random string of chars
             //skey -> db & user als cookie
             let sk = MakeSK(64);
-            let expire = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000 + 1000*60*60)
+            let expire = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000 + 1000*60*60*3)
             db.run(`
                 INSERT INTO Sessions
                 VALUES (?, ?, ?)
@@ -260,15 +261,18 @@ function DateFromSQLString(sqlstring) {
             cb({err: "User/Token combination was either not valid, or is expired"})
             return 
         }
-
+       // console.log(dbres[0].ExperationDate)
         let now = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000)
-        let exp = DateFromSQLString(dbres[0].ExperationDate)
-
-        console.log(now, "----", exp)
+        let exp = new Date(dbres[0].ExperationDate)
 
         if (now < exp) {
             //Session token is valid
             cb({loggedIn: true, un: un})
+            return
+        } 
+        else {
+            cb({loggedIn: false, err: "Session expired"})
+            return
         }
     })
 
