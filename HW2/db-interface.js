@@ -1,12 +1,17 @@
 
-let fs = require("fs")
-let path = require("path")
+let fs = require("fs");
+let path = require("path");
 var sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database("./hw2/uwu.db");
 var passwordHash = require('password-hash');
 
+// Sets up the entire database and fills it with data.
+// Should only be run once for initial setup, 
+// not every time the server starts
 function SetupDB() {
-    let topics = JSON.parse(fs.readFileSync(path.resolve("./HW2/topics.json")).toString())
+    // Grabs all of the topics with their quizes and questions
+    let topics = JSON.parse(fs.readFileSync(path.resolve("./HW2/topics.json")).toString());
+    
     db.serialize(() => {
         db.run(`
             CREATE TABLE Topics(
@@ -14,7 +19,7 @@ function SetupDB() {
                 TopicTitle VARCHAR(256) NOT NULL,
                 TopicDesc VARCHAR(2048) NOT NULL
             )
-        `)
+        `);
         db.run(`
             CREATE TABLE Quizes(
                 TopicID VARCHAR(16) NOT NULL,
@@ -22,7 +27,7 @@ function SetupDB() {
                 QuizTitle VARCHAR(256) NOT NULL,
                 CONSTRAINT Quiz_FK FOREIGN KEY (TopicID) REFERENCES Topics(TopicID)
             );
-        `)
+        `);
         db.run(`
             CREATE TABLE Questions(
                 QuizID VARCHAR(16) NOT NULL,
@@ -32,21 +37,21 @@ function SetupDB() {
                 QuestionType VARCHAR(16) NOT NULL,
                 CONSTRAINT Question_FK FOREIGN KEY (QuizID) REFERENCES Quizes(QuizID)
             );
-        `)
+        `);
         db.run(`
             CREATE TABLE MCQuestions(
                 QuestionID VARCHAR(16) NOT NULL,
                 QuestionOption VARCHAR(512) NOT NULL,
                 CONSTRAINT MCQ_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
             );
-        `)
+        `);
         db.run(`
             CREATE TABLE Users(
                 Username VARCHAR(16) NOT NULL PRIMARY KEY,
                 HashedPassword VARCHAR(64) NOT NULL,
                 FullName VARCHAR(256)
             );
-        `)
+        `);
         db.run(`
             CREATE TABLE Sessions(
                 Username VARCHAR(16) NOT NULL,
@@ -54,43 +59,51 @@ function SetupDB() {
                 ExperationDate DATETIME NOT NULL,
                 CONSTRAINT Username_FK FOREIGN KEY (Username) REFERENCES Users(Username)
           );
-        `)
+        `);
+
+        // Once all other databases have been created, the content can safely be added
         topics.forEach((t, tindex) => {
+            // Insert the topics
             db.run(`
                 INSERT INTO Topics 
                 VALUES (?, ?, ?)
             `,
-            [`t${tindex}`, t.title, t.description])
+            [`t${tindex}`, t.title, t.description]);
 
             t.quizes.forEach((q, qindex) => {
+                // Then insert all quizes
                 db.run(`
                     INSERT INTO Quizes
                     VALUES (?, ?, ?)
                 `,
-                [`t${tindex}`, `t${tindex}q${qindex}`, q.title])
+                [`t${tindex}`, `t${tindex}q${qindex}`, q.title]);
 
                 q.questions.forEach((question, questionID) => {
+                    // ..then insert all of the questions
                     db.run(`
                         INSERT INTO Questions
                         VALUES (?, ?, ?, ?, ?)
                     `,
                     [`t${tindex}q${qindex}`, `t${tindex}q${qindex}-${questionID}`,
-                        question.qtext, question.qanswer, question.qtype])
-
+                        question.qtext, question.qanswer, question.qtype]);
+                    
+                    // ....and lastly insert question options where necessary
                     question.qoptions.forEach(o => {
                         db.run(`
                             INSERT INTO MCQuestions
                             VALUES (?, ?)
                         `,
-                        [`t${tindex}q${qindex}-${questionID}`, o])   
-                    })
-                })
-            })
+                        [`t${tindex}q${qindex}-${questionID}`, o]);  
+                    });
+                });
+            });
         });
     });
 }
 
+// Return all of the questions for a certain quiz
 function GetQuizQuestions(quizid, cb) {
+    // First, get all of the questions with their answers
     db.all(`
         SELECT QuestionID, QuestionStatement, QuestionAnswer, QuestionType 
         FROM Questions 
@@ -99,6 +112,7 @@ function GetQuizQuestions(quizid, cb) {
     [quizid],
     (qerr, qres) => {
         if (qerr) console.log(qerr);
+        //Then, grab the options for each MCQuestion
         db.all(`
             SELECT MCQuestions.QuestionID, QuestionOption
             FROM MCQuestions
@@ -112,21 +126,26 @@ function GetQuizQuestions(quizid, cb) {
         (oerr, ores) => {
             if (oerr) console.log(oerr);
             
+            // Once we have all of the extra options, we can add them to the question objects we had earlier
+            // Any MCQ will have its answer added to the Options array.
             for(let i = 0; i < qres.length; i++) {
                 if (qres[i].QuestionType == "MCQ") {
-                    qres[i].Options = ores.filter(e => e.QuestionID == qres[i].QuestionID).map(e => e.QuestionOption)
-                    qres[i].Options.push(qres[i].QuestionAnswer)
+                    qres[i].Options = ores.filter(e => e.QuestionID == qres[i].QuestionID).map(e => e.QuestionOption);
+                    qres[i].Options.push(qres[i].QuestionAnswer);
                 }
-                qres[i].QuestionAnswer = undefined
+                
+                // Finally, remove the answer from the object so that the client doesnt get to see it
+                qres[i].QuestionAnswer = undefined;
             }
             
             cb(qres);
-        }
-        )
+        });
     });
 }
 
+// Get general info about a quiz based on its ID
 function GetQuizInfo(quizid, cb) {
+    // Select the quiz, and the count of all of its questions.
     db.all(`
         SELECT Quizes.TopicID, Quizes.QuizID, Quizes.QuizTitle, COUNT(Questions.QuizID) AS QuestionCount
         FROM Quizes, Questions
@@ -135,22 +154,24 @@ function GetQuizInfo(quizid, cb) {
     `, 
     [quizid],
     (err, res) => {
-        if (err) console.log(err)
-        cb(res)
+        if (err) console.log(err);
+        cb(res);
     });
 }
 
+// Get all topics
 function GetTopics(cb) {
     db.all(`
         SELECT *
         FROM Topics
     `,
     (err, res) => {
-        if (err) console.log(err)
-        cb(res)
+        if (err) console.log(err);
+        cb(res);
     });
 }
 
+// Checks the correctness of a answer
 function CheckAnswer(questionid, answer, cb) {
     db.each(`
         SELECT QuestionAnswer
@@ -159,37 +180,46 @@ function CheckAnswer(questionid, answer, cb) {
     `,
     [questionid],
     (err, res) => {
-        if (err) console.log(err)
-
-        cb({IsCorrect: res.QuestionAnswer == answer})
+        if (err) console.log(err);
+        cb({IsCorrect: res.QuestionAnswer == answer});
     });
 }
 
+// Allows for the registering of new users
 function Register(un, pw, fn, cb) {
+    // Checks if the username is within bounds
     if (un.length <= 3 || un.length > 16){
-        cb({err:"Username length incorrect"})
+        cb({err:"Username length incorrect"});
         return;
     }
+
+    //Checks if the password isn't too short
     if (pw.length <= 5){
         cb({err:"Password is too short"})
         return;
     }
+
+    //Checks if the fullname is within bounds
     if (fn.length <= 1 || fn.length > 256){
         cb({err:"Full name length is incorrect"})
         return;
     }
+
+    //Once the input has been validated, add it to the database
     db.run(`
         INSERT INTO Users
         VALUES (?, ?, ?)
     `,
     [un, passwordHash.generate(pw + un), fn],
     (err) => {
+        // If an error occurs, it's most likely to do with the primary key constraint
         if (err && err.errno == 19) {
-            cb({err: "User already exists"})
-        }  
+            cb({err: "User already exists"});
+        }
     })
 }
 
+// Logs a user in based on their un and pw
 function Login(un, pw, cb) {
     db.all(`
         SELECT HashedPassword 
@@ -198,33 +228,39 @@ function Login(un, pw, cb) {
     `, 
     [un],
     (err, res) => {
-        if (err) throw err
+        if (err) throw err;
 
+        // If the resulting array doesn't contain anything,
+        // the user must not exist.
         if (res.length == 0) {
-            cb({err: "User not found"})
-            return
+            cb({err: "User not found"});
+            return;
         } 
 
+        // If it does exist, verify the hashed password
         if(passwordHash.verify(pw+un, res[0].HashedPassword)) {
             
-            //session key maken -> random string of chars
-            //skey -> db & user als cookie
+            //Make a new session key for the user
             let sk = MakeSK(64);
-            let expire = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000 + 1000*60*60*3)
+            
+            //Let a session key be valid for 3 hours
+            let expire = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000 + 1000*60*60*3);
             db.run(`
                 INSERT INTO Sessions
                 VALUES (?, ?, ?)
             `,
             [un, sk, expire.toISOString().slice(0, 19).replace('T', ' ')], 
             (sesInsertErr) => {
-                if (sesInsertErr) throw sesInsertErr
+                if (sesInsertErr) throw sesInsertErr;
             })
 
 
-            cb({loggedIn: true, un: un, sk: sk})
+            cb({loggedIn: true, un: un, sk: sk});
         } 
         else {
-            cb({err: "Incorrect user/password combination."})
+            // If the password did not pass the check, notify the user
+            cb({err: "Incorrect user/password combination."});
+            return;
         }
     })
 }
@@ -240,14 +276,7 @@ function MakeSK(length) {
     return result;
 }
 
-function DateFromSQLString(sqlstring) {
-    var a = sqlstring.split("T");
-    var d = a[0].split("-");
-    var t = a[1].slice(0, -1).split(":");
-    return new Date(d[0], (d[1] - 1), d[2], t[0], t[1], t[2]);
-}
- 
- function CheckLogin(un, sk, cb) {
+function CheckLogin(un, sk, cb) {
     db.all(`
     SELECT ExperationDate
     FROM Sessions
@@ -257,28 +286,30 @@ function DateFromSQLString(sqlstring) {
     (dberr, dbres) => {
         if (dberr) throw dberr
 
+        // If there's no result for this un/sk combination, let the user know
+        // that they can't log in.
         if (dbres.length == 0) {
-            cb({err: "User/Token combination was either not valid, or is expired"})
-            return 
+            cb({err: "User/Token combination was either not valid, or is expired"});
+            return;
         }
-       // console.log(dbres[0].ExperationDate)
-        let now = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000)
-        let exp = new Date(dbres[0].ExperationDate)
+        
+        // Check if the sk is still valid
+        let now = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000);
+        let exp = new Date(dbres[0].ExperationDate);
 
         if (now < exp) {
-            //Session token is valid
-            cb({loggedIn: true, un: un})
-            return
+            // Session token is valid
+            cb({loggedIn: true, un: un});
+            return;
         } 
         else {
-            cb({loggedIn: false, err: "Session expired"})
-            return
+            // Session token has expired
+            cb({loggedIn: false, err: "Session expired"});
+            return;
         }
-    })
-
- }
+    });
+}
  
-
 module.exports = {
     GetQuizInfo: GetQuizInfo,
     GetQuizQuestions: GetQuizQuestions,
