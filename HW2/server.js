@@ -27,22 +27,6 @@ app.use("/*", (req, res, next) => {
         if (dbres.loggedIn) {
            console.log("Registered user request, un: " + req.cookies.un);
 
-<<<<<<< HEAD
-           req.LoggedInUser = req.cookies.un;
-           next();
-           return
-        } 
-        else if (dbres.err == "Session expired") {
-            // If a user still had an old token which is expired, 
-            // redirect them to the login page to get a new token
-            res.redirect('/register.html');
-            return
-        }
-        next()
-        return
-    });
-});
-=======
            req.LoggedInUser = req.cookies.un
            next()
            return;
@@ -53,9 +37,9 @@ app.use("/*", (req, res, next) => {
             return;
         }
         next()
+        return
     })
 })
->>>>>>> Sessionusers
 
 // Registering of new users
 app.post("/register/", (req, res) => {
@@ -66,14 +50,10 @@ app.post("/register/", (req, res) => {
 
 // Logging in of users
 app.post("/login/", (req, res) => {
-<<<<<<< HEAD
-
-=======
     if (req.LoggedInUser) {
         res.send({errcode: 300, redirect: '/report.html'});
         return;
     }
->>>>>>> Sessionusers
     dbi.Login(req.body.un, req.body.pw, (dbres) => {
         
         if (dbres.loggedIn) {
