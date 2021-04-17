@@ -1,3 +1,5 @@
+@import url("page-template.css");
+
 #control-wrapper {
     display: flex;
     align-items: center;
@@ -6,13 +8,14 @@
     height: 100vh;
 }
 #control-box {
-    width: 600px;
-    height: 400px;
+    width: 400px;
+    height: 600px;
     background-color: red;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 12px;
 }
 #usernameinp{
     background-color: #1E1E1E;
@@ -21,6 +24,8 @@
     padding: 12px 20px;
     margin: 8px 0;
     border-radius: 10px;
+    outline: none;
+    
 }
 #pwinp{
     background-color: #1E1E1E;
@@ -29,6 +34,7 @@
     padding: 12px 20px;
     margin: 8px 0;
     border-radius: 10px;
+    outline: none;
 }
 #fninp{
     background-color: #1E1E1E;
@@ -37,7 +43,7 @@
     padding: 12px 20px;
     margin: 8px 0;
     border-radius: 10px; 
-    
+    outline: none;
 }
 button{
     background-color: white; 
@@ -50,4 +56,13 @@ button{
 body{
     background-color: #121212;
     overflow: hidden;
+    padding: 0;
 }
+
+@media only screen and (max-width: 600px) {
+    #control-box{
+      background-color: lightblue;
+      width: 80%;
+      
+    }
+  }
