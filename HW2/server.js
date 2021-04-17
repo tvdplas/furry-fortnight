@@ -111,13 +111,13 @@ app.get("/quizquestions/:quiz/", (req, res) => {
 app.get("/checkquestion/:questionid", (req, res) => {
     // Check if the user is logged in before they're allowed to check answers
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request: please log in");
+        res.status(400).send({msg: "Invalid request: please log in", errcode: 6});
         return;
     }
 
     // The answer must be passed as a query parameter
     if (!req.query.answer) {
-        res.status(400).send("Invalid request: no answer found");
+        res.status(400).send({ msg: "Invalid request: no answer found", errcode: 6});
         return;
     }
 
