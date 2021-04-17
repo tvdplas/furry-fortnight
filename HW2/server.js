@@ -29,12 +29,16 @@ app.use("/*", (req, res, next) => {
 
            req.LoggedInUser = req.cookies.un;
            next();
+           return
         } 
         else if (dbres.err == "Session expired") {
             // If a user still had an old token which is expired, 
             // redirect them to the login page to get a new token
             res.redirect('/register.html');
+            return
         }
+        next()
+        return
     });
 });
 
@@ -91,14 +95,35 @@ app.get("/quizquestions/:quiz/", (req, res) => {
 
 // Checks if the answer to a questionid is the right one
 app.get("/checkquestion/:questionid", (req, res) => {
+    // Check if the user is logged in before they're allowed to check answers
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request: please log in")
+        return
+    }
+
     // The answer must be passed as a query parameter
-    if (!req.query.answer) res.sendStatus(400);
-    dbi.CheckAnswer(req.params.questionid, req.query.answer, (answerres) => {
+    if (!req.query.answer) {
+        res.status(400).send("Invalid request: no answer found");
+        return;
+    }
+
+    dbi.CheckAnswer(req.params.questionid, req.query.answer, req.LoggedInUser, (answerres) => {
         // Sends a bool isCorrect
         res.send(answerres);
     });
 });
 
+app.get("/completion/", (req, res) => {
+    //First, check if we have a RU.
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request")
+    }
+    else {
+        dbi.GetQuizCompletion(req.LoggedInUser, (dbres) => {
+            res.send(dbres)
+        })
+    }
+})
 
 app.listen(8080, () => {
     console.log("Server started on port 8080");

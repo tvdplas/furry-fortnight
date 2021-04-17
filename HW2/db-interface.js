@@ -60,6 +60,24 @@ function SetupDB() {
                 CONSTRAINT Username_FK FOREIGN KEY (Username) REFERENCES Users(Username)
           );
         `);
+        db.run(`
+            CREATE TABLE ActiveQuestions(
+                Username VARCHAR(16) NOT NULL,
+                QuestionID VARCHAR(16) NOT NULL,
+                CONSTRAINT ActiveQuestions_PK PRIMARY KEY (Username),
+                CONSTRAINT Username_FK FOREIGN KEY (Username) REFERENCES Users(Username), 
+                CONSTRAINT Username_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
+            );
+        `);
+        db.run(`
+            CREATE TABLE CompletedQuestions(
+                Username VARCHAR(16) NOT NULL,
+                QuestionID VARCHAR(16) NOT NULL,
+                CONSTRAINT CompletedQuestions_PK PRIMARY KEY (Username, QuestionID),
+                CONSTRAINT Username_FK FOREIGN KEY (Username) REFERENCES Users(Username), 
+                CONSTRAINT Username_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
+            );
+        `);
 
         // Once all other databases have been created, the content can safely be added
         topics.forEach((t, tindex) => {
@@ -172,7 +190,8 @@ function GetTopics(cb) {
 }
 
 // Checks the correctness of a answer
-function CheckAnswer(questionid, answer, cb) {
+// THIS FUNCTION SHOULD ONLY BE CALLED WHEN A USER IS LOGGED IN
+function CheckAnswer(questionid, answer, ruu, cb) {
     db.each(`
         SELECT QuestionAnswer
         FROM Questions
@@ -181,7 +200,63 @@ function CheckAnswer(questionid, answer, cb) {
     [questionid],
     (err, res) => {
         if (err) console.log(err);
-        cb({IsCorrect: res.QuestionAnswer == answer});
+
+        let isCorrect = res.QuestionAnswer == answer;
+
+        if (isCorrect) {
+            db.run(`
+                INSERT INTO CompletedQuestions
+                VALUES (?, ?)
+            `, 
+            [ruu, questionid], 
+            (err ) => {
+                if (err && err.errno != 19) console.log(err)
+            })
+        }
+
+        cb({IsCorrect: isCorrect});
+    });
+}
+
+// Gets the completion of a quiz, based on a registered user's id
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
+function GetQuizCompletion (ruu, cb) {
+    //ruu - registered user's username
+
+    //First, select all the quizid's and the amount of questions that's in them. 
+    //Also, display the name for easy understanding
+    db.all(`
+        SELECT Quizes.QuizTitle, Quizes.QuizID, COUNT(Questions.QuizID) AS QuestionCount
+        FROM Quizes, Questions
+        WHERE Questions.QuizID = Quizes.QuizID
+        GROUP BY Questions.QuizID
+    `, (quizerr, quizData) => {
+        if (quizerr) throw quizerr;
+
+        //Then, select the amount of questions that's correct for each of the quizes
+        db.all(`
+            SELECT Quizes.QuizID, COUNT(Questions.QuizID) AS CQuestionCount
+            FROM Quizes, Questions, CompletedQuestions
+            WHERE Questions.QuizID = Quizes.QuizID 
+            AND Questions.QuestionID = CompletedQuestions.QuestionID 
+            AND CompletedQuestions.Username = ?
+            GROUP BY Questions.QuizID
+        `, 
+        [ruu], 
+        (answerErr, correctQuestions) => {
+            if (answerErr) throw answerErr;
+
+            //console.log(quizData, correctQuestions)
+
+            for (let i = 0; i < quizData.length; i++) {
+                let cqc = correctQuestions.find(e => e.QuizID == quizData[i].QuizID)
+                quizData[i].CQuestionCount = cqc ? cqc.CQuestionCount : 0
+            }
+
+            cb(quizData)
+        })
+       // console.log(res)
     });
 }
 
@@ -318,5 +393,6 @@ module.exports = {
     SetupDB: SetupDB,
     Register: Register,
     Login: Login,
+    GetQuizCompletion: GetQuizCompletion,
     CheckLogin: CheckLogin
 };
