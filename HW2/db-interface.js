@@ -218,6 +218,85 @@ function CheckAnswer(questionid, answer, ruu, cb) {
     });
 }
 
+// Sets the active question for a user
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
+function SetActiveQuestion(ruu, qid, cb) {
+    //First, check if the user already has an active question
+    db.all(`
+        SELECT *
+        FROM ActiveQuestions
+        WHERE Username = ?
+    `, 
+    [ruu],
+    (checkErr, checkRes) => {
+        if (checkErr) throw checkErr;
+
+        //If there's a result, we know that there must already be a row for this user.
+        //Thus, we can update it
+        if (checkRes.length > 0) {
+            db.run(`
+                UPDATE ActiveQuestions
+                SET QuestionID = ?
+                WHERE Username = ?
+            `,
+            [qid, ruu],
+            (err) => {
+                if (err && err.errcode != 19) throw err;
+                cb({msg: "OK"})
+            })
+        }
+        //Otherwise, insert it 
+        else {
+            db.run(`
+                INSERT INTO ActiveQuestions
+                VALUES (?, ?)
+            `,
+            [ruu, qid],
+            (err) => {
+                if (err) throw err;
+                cb({msg: "OK"})
+            });
+        }
+    });
+}
+
+// Gets the active question for a user
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
+function GetActiveQuestion(ruu, cb) {
+    db.all(`
+        SELECT *
+        FROM ActiveQuestions
+        WHERE Username = ?
+    `,
+    [ruu],
+    (err, res) => {
+        if (err) throw err;
+        if (res.length == 0) {
+            cb({err: "No active question"})
+        } else {
+            cb(res[0])
+        }
+    })
+}
+
+// Get's the user's info
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
+function GetUserInfo(ruu, cb) {
+    db.each(`
+        SELECT Username, FullName
+        FROM Users
+        WHERE Username = ?
+    `, 
+    [ruu],
+    (err, res) => {
+        if (err) throw err;
+        cb(res)
+    })
+}
+
 // Gets the completion of a quiz, based on a registered user's id
 // SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
 // UNAUTHENTICATED USERS!!
@@ -395,5 +474,8 @@ module.exports = {
     Register: Register,
     Login: Login,
     GetQuizCompletion: GetQuizCompletion,
+    GetUserInfo: GetUserInfo,
+    SetActiveQuestion: SetActiveQuestion,
+    GetActiveQuestion: GetActiveQuestion,
     CheckLogin: CheckLogin
 };

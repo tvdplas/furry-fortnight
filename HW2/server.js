@@ -125,6 +125,39 @@ app.get("/completion/", (req, res) => {
             res.send(dbres)
         })
     }
+});
+
+app.get("/userinfo/", (req, res) => {
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request")
+    }
+    else {
+        dbi.GetUserInfo(req.LoggedInUser, (dbres) => {
+            res.send(dbres)
+        })
+    }
+});
+
+app.get("/setactivequestion/:qid/", (req, res) => {
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request")
+    }
+    else {
+        dbi.SetActiveQuestion(req.LoggedInUser, req.params.qid, (dbres) => {
+            res.send(dbres)
+        })
+    }
+});
+
+app.get("/getactivequestion/", (req, res) => {
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request")
+    }
+    else {
+        dbi.GetActiveQuestion(req.LoggedInUser, (dbres) => {
+            res.send(dbres)
+        })
+    }
 })
 
 app.listen(8080, () => {
