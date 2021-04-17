@@ -1,189 +1,172 @@
-//Superclass for the different question types
-class Question {
-    constructor(qText, answer) {
-        this.questionText = qText;      // The question to be displayed to the used
-        this.correctAnswer = answer;    // The correct answer
-        this.id = -1;                   //The id of the question, must be a unique identifier on the page
+let main = document.getElementById('assessment-questions');
+var xmlHttp = new XMLHttpRequest();
+var selectedTopic;
+
+function getTopics(url){
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = JSON.parse(xmlHttp.responseText);
+            res.forEach((topic) => {
+                let button = document.createElement("button");
+                button.innerHTML = "<h2>" + topic.TopicTitle + "</h2><p>" + topic.TopicDesc + "</p>";
+                button.classList.add("topic-button");
+                button.addEventListener("click", function(){
+                    selectedTopic = topic.TopicTitle;
+                    quizType(topic.TopicID);
+                });
+                main.appendChild(button);
+            });
+        }
+      };
+      xmlHttp.open("GET", url, true);
+      xmlHttp.send();
+}
+
+function quizType(id){
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            removeChild(main);
+            var res = JSON.parse(xmlHttp.responseText);
+            res.forEach((quiz) => {
+                let button = document.createElement("button");
+                button.innerHTML = "<h2>" + quiz.QuizTitle.split("-")[0] + "</h2><p>" + quiz.QuizTitle.split("-")[1] + "</p>";
+                button.classList.add("topic-button");
+                button.addEventListener("click", function(){
+                    quizQuestions(quiz.QuizID);
+                });
+                
+                main.appendChild(button);
+            });
+        }
     }
+    xmlHttp.open("GET", "./quizes/" + id, true);
+    xmlHttp.send();
+}
 
-    // Simply returns whether a given answer is the correct one 
-    checkAnswer(answer) {
-        //Selects the question section, if it exists already
-        let q = document.getElementById(`q${this.id}`);
+function quizQuestions(id){
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            removeChild(main);
+            var res = JSON.parse(xmlHttp.responseText);
+            res.forEach((questions) => {
+                var answer;
+                let section = document.createElement("section");
+                section.setAttribute("id", questions.QuestionID + "s");
+                main.appendChild(section);
+                let question = document.createElement("h3");
+                question.innerText = questions.QuestionStatement;
+                section.appendChild(question);
+                let button = document.createElement("button");
+                button.appendChild(document.createTextNode("Check answer"));
+                button.setAttribute("id", questions.QuestionID + "b");
+                console.log(document.getElementById(id + "b"));
+                button.classList.add("answer-button");
+                
+                if(questions.QuestionType === "MCQ"){
+                    questions.Options.forEach((mcq) =>{
+                        let div = document.createElement("div");
+                        div.classList.add("question__selectable");
+                        let input = document.createElement("input");
+                        input.setAttribute("type", "radio");
+                        input.setAttribute("name", questions.QuestionID);
+                        input.setAttribute("value", mcq);
+                        input.addEventListener('click', function (event) {
+                            if (event.target && event.target.matches("input[type='radio']")) {
+                                answer = (event.target.value);
+                            }
+                        });
 
-        if (q) {
-            let oldResP = document.getElementById(`q${this.id}-res`); //Tries to fetch an existing answer element from the page
-            if (oldResP) {
-                q.removeChild(oldResP);
-            }
+                        let label = document.createElement("label");
+                        label.appendChild(document.createTextNode(mcq));
+                        label.setAttribute("for", mcq);
+                        section.appendChild(div);
+                        div.appendChild(input);
+                        div.appendChild(label);
+                    });
+                    var p;
+                    button.addEventListener("click", function(){
+                        if(answer){
+                            if(p){
+                                section.removeChild(p);
+                            }
+                            checkQuestion(questions.QuestionID, answer);
+                        }
+                        else{
+                            if(!p){
+                            p = document.createElement("p");
+                            p.appendChild(document.createTextNode("No answer selected"))
+                            section.appendChild(p);
+                            }
+                        }
+                    });
+                }
+                else{
+                    let input = document.createElement("input");
+                    input.setAttribute("type", "text");
+                    input.setAttribute("id", questions.QuestionID);
+                    section.appendChild(input);
+                    button.addEventListener("click", function(){
+                        answer = input.value;
+                        if(answer){
+                            if(p){
+                                section.removeChild(p);
+                            }
+                            checkQuestion(questions.QuestionID, answer);
+                        }
+                        else{
+                            if(!p){
+                            p = document.createElement("p");
+                            p.appendChild(document.createTextNode("No answer written"))
+                            section.appendChild(p);
+                            }
+                        }
+                    });
+                }
 
-            //Make a new result element
+                section.appendChild(button);   
+            });
+        }
+    }
+    xmlHttp.open("GET", "./quizquestions/" + id, true);
+    xmlHttp.send();
+}
+
+function checkQuestion(id, answer){
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = JSON.parse(xmlHttp.responseText);
+            let p = document.createElement("p");
             let resP = document.createElement("p");
-            resP.setAttribute("id", `q${this.id}-res`);
-            resP.classList.add("question__result")
-            q.appendChild(resP);
-            
-            //If the correct answer was displayed, let the user now and disable the button
-            if (answer == this.correctAnswer) {
+            var sect = document.getElementById(id + "s");
+            var link = selectedTopic;
+            sect.removeChild(document.getElementById(id + "b"));
+            document.getElementsByName(id).forEach(e => {
+                e.setAttribute("disabled", true);
+            });
+            if(!res.IsCorrect){
+                if(selectedTopic == "Notepad++"){
+                    link = "Notepadpp";
+                }
+                p.innerHTML = 'Incorrect. The correct answer was: "answer i dont have yet". For more info, go to the <a href="./' + link + '.html">' + selectedTopic + ' page</a>';
+                resP.appendChild(document.createTextNode("✖"));
+            }
+            else{
+                p.appendChild(document.createTextNode("Correct!"));
                 resP.appendChild(document.createTextNode("✔"));
-                q.removeChild(document.querySelector(`#q${this.id} button`));
-                q.classList.add("question--completed")
             }
-            else {
-                resP.appendChild(document.createTextNode("incorrect, try again!"));
-            }
+            sect.classList.add("question--completed");
+            sect.appendChild(resP);
+            sect.appendChild(p);
         }
+      };
+      xmlHttp.open("GET", "/checkquestion/" + id + "?answer=" + answer, true);
+      xmlHttp.send();
+}
 
-        return this.correctAnswer == answer;
-    }
-
-    //Checks to see if an ID was set
-    checkID() {
-        if (this.id == -1) {
-            throw new Error("No question id was set for the element.");
-        }
-    }
-
-    //Generates the basic question structure, returns a reference to the element after which 
-    generateBase() {
-        this.checkID()
-
-        // Each question is a section
-        let section = document.createElement("section");
-        section.setAttribute("id", `q${this.id}`);
-        section.classList.add("question")
-
-        // Adds the question text as a header
-        let header = document.createElement("h3");
-        header.appendChild(document.createTextNode(this.questionText));
-        section.appendChild(header);
-
-        // Button to check for answer
-        let button = document.createElement("button");
-        button.appendChild(document.createTextNode("Check answer"));
-        section.appendChild(button);
-
-        this.section = section;
-        this.button = button;
-    }
-
-    // Overridable function to generate the html node.
-    generateElement() {
-        throw new Error("No question type was specified");
-    }
-};
-
-// Fill in the blank style question. Is correct when the user enters the right word/phrase in the blank spot.
-class FillInTheBlank extends Question {
-    constructor(qText, answer, qPart1, qPart2) {
-        super(qText, answer);   // qText is now simply the text thata is displayd above the question    
-        this.qPart1 = qPart1;        // The first half of the question
-        this.qPart2 = qPart2;        // The second half of the question
-    }
-    
-    //Generates the fill in the blank html node
-    generateElement() {
-        this.generateBase()
-        
-        //The entire question is wrapped in a paragraph for styling and accessibility reasons
-        let questionInput = document.createElement("p");
-        questionInput.classList.add("question__fitbtext")
-
-        // First part of question
-        let beginning = document.createElement("span");
-        beginning.appendChild(document.createTextNode(this.qPart1 + " "));
-        
-        //Last part of question
-        let ending = document.createElement("span");
-        ending.appendChild(document.createTextNode(" " + this.qPart2));
-        
-        //Input in the middle of the question
-        let input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.setAttribute("size", this.correctAnswer.length)
-        
-        this.button.addEventListener("click", () => {
-            if (this.checkAnswer(input.value)) {
-                input.setAttribute("disabled", "true");
-            }
-        });
-
-        //Build the entire node
-        questionInput.appendChild(beginning);
-        questionInput.appendChild(input);
-        questionInput.appendChild(ending);
-        this.section.insertBefore(questionInput, this.button);
-
-        return this.section;
-    }
-};
-
-// A multiple choice question, implemented with radiobuttons
-class MultipleChoice extends Question {
-    constructor(qText, answer, options) {
-        super(qText, answer);
-        this.options = options;     //An array of possible answers
-    }
-    
-    //Generates the multiple choice element
-    generateElement() {
-        this.generateBase()
-        
-        //For every possible answer, add a radiobutton to the node
-        this.options.forEach((option, index)  => {
-            //For styling purposes, wrap it in a div
-            let div = document.createElement("div");
-            div.classList.add("question__selectable")
-
-            //Crete the radiobutton
-            let input = document.createElement("input");
-            input.setAttribute("type", "radio");
-            input.setAttribute("id", `q${this.id}-i${index}`); //If we ever need to refer back to a button, there's a unique id
-            input.setAttribute("name", `q${this.id}`);
-            input.setAttribute("value", option); //Value can just simply be the option itself, which makes checking easier
-            
-            //Create the label
-            let label = document.createElement("label");
-            label.appendChild(document.createTextNode(option));
-            label.setAttribute("for", option);
-
-            //Build up this node and add it to the section
-            div.appendChild(input);
-            div.appendChild(label);
-            this.section.insertBefore(div, this.button);
-        });
-
-        //Set button onclick
-        this.button.addEventListener("click", () => {
-            if (this.checkAnswer(document.querySelector(`input[name="q${this.id}"]:checked`)?.value)) {
-                // If the answer was correct, block new input
-                document.getElementsByName(`q${this.id}`).forEach(e => {
-                    e.setAttribute("disabled", true)
-                })
-            }
-        });
-
-        return this.section;
+function removeChild(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
     }
 }
 
-//Create a list of questions
-let questions = [
-    new MultipleChoice("What does the name VSCode stand for?", "Visual Studio Code", [
-        "Visual Styling Code", "Visual Studio Code", "Version Selection Code", "Version Studio Code"
-    ]),
-    new MultipleChoice("How long does it take most users to get started in Vim?", "30 minutes", [
-        "30 minutes", "5 minutes", "15 minutes", "1 hour", "2.5 hours"
-    ]),
-    new FillInTheBlank("Fill in the correct size", "4", "The installed size of Notepad++ is", "MB."),
-    new MultipleChoice("Which of these editors does not have a built-in debugger?", "Notepad++", [
-        "VSCode", "Vim", "Notepad++"
-    ]),
-    new FillInTheBlank("Fill in the correct name", "Marketplace", 
-        "You can use the", "to download additional content for VSCode.")
-];
-
-questions.forEach((q, i) => {
-    q.id = i;
-    document.getElementById('assessment-questions').appendChild(q.generateElement())
-})
+getTopics("./topics");
