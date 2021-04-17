@@ -150,6 +150,9 @@ function GetQuizQuestions(quizid, cb) {
                 if (qres[i].QuestionType == "MCQ") {
                     qres[i].Options = ores.filter(e => e.QuestionID == qres[i].QuestionID).map(e => e.QuestionOption);
                     qres[i].Options.push(qres[i].QuestionAnswer);
+
+                    // Shuffle the questions at the end to prevent the client from seeing
+                    // that the last option would always be correct
                     qres[i].Options = shuffleArray(qres[i].Options);
                 }
 
@@ -192,7 +195,8 @@ function GetTopics(cb) {
 }
 
 // Checks the correctness of a answer
-// THIS FUNCTION SHOULD ONLY BE CALLED WHEN A USER IS LOGGED IN
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
 function CheckAnswer(questionid, answer, ruu, cb) {
     db.each(`
         SELECT QuestionAnswer
@@ -205,6 +209,8 @@ function CheckAnswer(questionid, answer, ruu, cb) {
 
         let isCorrect = res.QuestionAnswer == answer;
 
+        // If the answer was correct, we can add it to our table of
+        // correctly answered questions for this user
         if (isCorrect) {
             db.run(`
                 INSERT INTO CompletedQuestions
@@ -212,7 +218,9 @@ function CheckAnswer(questionid, answer, ruu, cb) {
             `, 
             [ruu, questionid], 
             (err ) => {
-                if (err && err.errno != 19) console.log(err)
+                // If this throws a errno 19, it must be a question we already had logged
+                // as being answered correctly. Therefore, we will just ignore it.
+                if (err && err.errno != 19) console.log(err);
             })
         }
 
@@ -245,7 +253,7 @@ function SetActiveQuestion(ruu, qid, cb) {
             [qid, ruu],
             (err) => {
                 if (err && err.errcode != 19) throw err;
-                cb({msg: "OK"})
+                cb({msg: "OK"});
             })
         }
         //Otherwise, insert it 
@@ -257,7 +265,7 @@ function SetActiveQuestion(ruu, qid, cb) {
             [ruu, qid],
             (err) => {
                 if (err) throw err;
-                cb({msg: "OK"})
+                cb({msg: "OK"});
             });
         }
     });
@@ -276,9 +284,10 @@ function GetActiveQuestion(ruu, cb) {
     (err, res) => {
         if (err) throw err;
         if (res.length == 0) {
-            cb({err: "No active question"})
-        } else {
-            cb(res[0])
+            cb({err: "No active question"});
+        } 
+        else {
+            cb(res[0]);
         }
     })
 }
@@ -295,7 +304,7 @@ function GetUserInfo(ruu, cb) {
     [ruu],
     (err, res) => {
         if (err) throw err;
-        cb(res)
+        cb(res);
     })
 }
 
@@ -328,16 +337,14 @@ function GetQuizCompletion (ruu, cb) {
         (answerErr, correctQuestions) => {
             if (answerErr) throw answerErr;
 
-            //console.log(quizData, correctQuestions)
-
+            //Match the quizdata to the correctquestions data
             for (let i = 0; i < quizData.length; i++) {
-                let cqc = correctQuestions.find(e => e.QuizID == quizData[i].QuizID)
-                quizData[i].CQuestionCount = cqc ? cqc.CQuestionCount : 0
+                let cqc = correctQuestions.find(e => e.QuizID == quizData[i].QuizID);
+                quizData[i].CQuestionCount = cqc ? cqc.CQuestionCount : 0;
             }
 
-            cb(quizData)
-        })
-       // console.log(res)
+            cb(quizData);
+        });
     });
 }
 
@@ -347,7 +354,7 @@ function GetQuizCompletion (ruu, cb) {
 function ChangeFullname(ruu, fn, cb) {
     //The new fn still needs to be within bounds
     if (fn.length <= 1 || fn.length > 256){
-        cb({errcode: 4})
+        cb({errcode: 4});
         return;
     }
     
@@ -361,7 +368,7 @@ function ChangeFullname(ruu, fn, cb) {
     (err) => {
         if (err) throw err;
 
-        cb({msg: "OK", errcode: -2})
+        cb({msg: "OK", errcode: -2});
     })
 }
 
@@ -369,19 +376,19 @@ function ChangeFullname(ruu, fn, cb) {
 function Register(un, pw, fn, cb) {
     // Checks if the username is within bounds
     if (un.length <= 3 || un.length > 16){
-        cb({errcode: 2})
+        cb({errcode: 2});
         return;
     }
 
     //Checks if the password isn't too short
     if (pw.length <= 5){
-        cb({errcode: 3})
+        cb({errcode: 3});
         return;
     }
 
     //Checks if the fullname is within bounds
     if (fn.length <= 1 || fn.length > 256){
-        cb({errcode: 4})
+        cb({errcode: 4});
         return;
     }
 
@@ -394,10 +401,10 @@ function Register(un, pw, fn, cb) {
     (err) => {
         // If an error occurs, it's most likely to do with the primary key constraint
         if (err && err.errno == 19) {
-            cb({err: "User already exists"})
+            cb({err: "User already exists"});
             return;
         } 
-        cb({errcode: -1}) 
+        cb({errcode: -1});
         return;
     })
 }
@@ -416,8 +423,8 @@ function Login(un, pw, cb) {
         // If the resulting array doesn't contain anything,
         // the user must not exist.
         if (res.length == 0) {
-            cb({errcode: 1})
-            return
+            cb({errcode: 1});
+            return;
         } 
 
         // If it does exist, verify the hashed password
@@ -438,10 +445,10 @@ function Login(un, pw, cb) {
             })
 
 
-            cb({loggedIn: true, un: un, sk: sk, redirect: '/report.html'})
+            cb({loggedIn: true, un: un, sk: sk, redirect: '/report.html'});
         } 
         else {
-            cb({errcode: 1})
+            cb({errcode: 1});
         }
     })
 }
@@ -455,7 +462,7 @@ function CheckLogin(un, sk, cb) {
     `,
     [un, sk],
     (dberr, dbres) => {
-        if (dberr) throw dberr
+        if (dberr) throw dberr;
 
         // If there's no result for this un/sk combination, let the user know
         // that they can't log in.
