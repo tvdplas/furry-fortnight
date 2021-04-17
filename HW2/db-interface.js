@@ -207,7 +207,7 @@ function CheckAnswer(questionid, answer, ruu, cb) {
     (err, res) => {
         if (err) console.log(err);
 
-        let isCorrect = res.QuestionAnswer == answer;
+        let isCorrect = res.QuestionAnswer.toLowerCase() == answer.toLowerCase();
 
         // If the answer was correct, we can add it to our table of
         // correctly answered questions for this user
