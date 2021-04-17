@@ -201,7 +201,7 @@ function Login(un, pw, cb) {
         if (err) throw err
 
         if (res.length == 0) {
-            cb({err: "User not found"})
+            cb({errcode: 1})
             return
         } 
 
@@ -224,7 +224,7 @@ function Login(un, pw, cb) {
             cb({loggedIn: true, un: un, sk: sk})
         } 
         else {
-            cb({err: "Incorrect user/password combination."})
+            cb({errcode: 1})
         }
     })
 }

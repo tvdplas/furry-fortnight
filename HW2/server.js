@@ -25,6 +25,7 @@ app.use("/*", (req, res, next) => {
             //Redirect client to a different page if their login is expired
             res.redirect('/register.html');
         }
+        next()
     })
 })
 
@@ -35,6 +36,7 @@ app.post("/register/", (req, res) => {
 });
 
 app.post("/login/", (req, res) => {
+    console.log("fhasuifdhsiua")
     dbi.Login(req.body.un, req.body.pw, (dbres) => {
         if (dbres.loggedIn) {
             console.log("Setting cookie")
