@@ -341,6 +341,30 @@ function GetQuizCompletion (ruu, cb) {
     });
 }
 
+// Changes the name of an already registered user
+// SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
+// UNAUTHENTICATED USERS!!
+function ChangeFullname(ruu, fn, cb) {
+    //The new fn still needs to be within bounds
+    if (fn.length <= 1 || fn.length > 256){
+        cb({errcode: 4})
+        return;
+    }
+    
+    //Because we know this user is logged in and registered, we assume they exist in the db
+    db.run(`
+        UPDATE Users
+        SET FullName = ?
+        WHERE Username = ?; 
+    `, 
+    [fn, ruu], 
+    (err) => {
+        if (err) throw err;
+
+        cb({msg: "OK", errcode: -2})
+    })
+}
+
 // Allows for the registering of new users
 function Register(un, pw, fn, cb) {
     // Checks if the username is within bounds

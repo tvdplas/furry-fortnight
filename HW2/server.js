@@ -71,6 +71,18 @@ app.post("/login/", (req, res) => {
     });
 });
 
+app.post("/fnchange/", (req, res) => {
+    //First, check if we have a RU.
+    if (!req.LoggedInUser) {
+        res.status(400).send({err: "Invalid request"});
+        return;
+    } else {
+        dbi.ChangeFullname(req.LoggedInUser, req.body.fn, (dbres) => {
+            res.send(dbres)
+        });
+    }
+})
+
 // Get all of the topics which are available
 app.get("/topics/", (req, res) => {
     dbi.GetTopics((topicres) => {
