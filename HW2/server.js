@@ -117,7 +117,7 @@ app.get("/checkquestion/:questionid", (req, res) => {
 
     // The answer must be passed as a query parameter
     if (!req.query.answer) {
-        res.status(400).send({ msg: "Invalid request: no answer found", errcode: 6});
+        res.status(400).send({ msg: "Invalid request: no answer found", errcode: 7});
         return;
     }
 
