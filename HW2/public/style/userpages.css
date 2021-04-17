@@ -16,6 +16,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
+    text-align: center;
 }
 #usernameinp{
     background-color: #1E1E1E;
@@ -25,6 +26,7 @@
     margin: 8px 0;
     border-radius: 10px;
     outline: none;
+    font-family: 'Helios Regular';
     
 }
 #pwinp{
@@ -35,6 +37,7 @@
     margin: 8px 0;
     border-radius: 10px;
     outline: none;
+    font-family: 'Helios Regular';
 }
 #fninp{
     background-color: #1E1E1E;
@@ -44,6 +47,7 @@
     margin: 8px 0;
     border-radius: 10px; 
     outline: none;
+    font-family: 'Helios Regular';
 }
 button{
     background-color: white; 
@@ -51,6 +55,7 @@ button{
     padding: 15px 32px;
     border-radius: 10px;
     font-size: 16px;
+    font-family: 'Helios Regular';
 
 }
 body{
