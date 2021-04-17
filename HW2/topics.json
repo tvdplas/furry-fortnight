@@ -22,7 +22,7 @@
                     "qtext": "Is source control built into VSCode, or is it an extension that needs to be downloaded?",
                     "qanswer": "Built-in",
                     "qtype": "MCQ",
-                    "qoptions": []
+                    "qoptions": ["Downloaded"]
                 }
             ]
         },
