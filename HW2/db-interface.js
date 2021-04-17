@@ -276,9 +276,9 @@ function SetActiveQuestion(ruu, qid, cb) {
 // UNAUTHENTICATED USERS!!
 function GetActiveQuestion(ruu, cb) {
     db.all(`
-        SELECT *
-        FROM ActiveQuestions
-        WHERE Username = ?
+        SELECT ActiveQuestions.QuestionID, Quizes.QuizID
+        FROM ActiveQuestions, Quizes, Questions
+        WHERE Username = ? AND Quizes.QuizID = Questions.QuizID AND Questions.QuestionID = ActiveQuestions.QuestionID
     `,
     [ruu],
     (err, res) => {
