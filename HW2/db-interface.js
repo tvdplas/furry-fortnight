@@ -264,19 +264,23 @@ function GetQuizCompletion (ruu, cb) {
 function Register(un, pw, fn, cb) {
     // Checks if the username is within bounds
     if (un.length <= 3 || un.length > 16){
+<<<<<<< HEAD
         cb({err:"Username length incorrect"});
+=======
+        cb({errcode: 2})
+>>>>>>> Sessionusers
         return;
     }
 
     //Checks if the password isn't too short
     if (pw.length <= 5){
-        cb({err:"Password is too short"})
+        cb({errcode: 3})
         return;
     }
 
     //Checks if the fullname is within bounds
     if (fn.length <= 1 || fn.length > 256){
-        cb({err:"Full name length is incorrect"})
+        cb({errcode: 4})
         return;
     }
 
@@ -289,8 +293,16 @@ function Register(un, pw, fn, cb) {
     (err) => {
         // If an error occurs, it's most likely to do with the primary key constraint
         if (err && err.errno == 19) {
+<<<<<<< HEAD
             cb({err: "User already exists"});
         }
+=======
+            cb({err: "User already exists"})
+            return;
+        } 
+        cb({errcode: -1}) 
+        return;
+>>>>>>> Sessionusers
     })
 }
 
@@ -308,8 +320,13 @@ function Login(un, pw, cb) {
         // If the resulting array doesn't contain anything,
         // the user must not exist.
         if (res.length == 0) {
+<<<<<<< HEAD
             cb({err: "User not found"});
             return;
+=======
+            cb({errcode: 1})
+            return
+>>>>>>> Sessionusers
         } 
 
         // If it does exist, verify the hashed password
@@ -330,12 +347,19 @@ function Login(un, pw, cb) {
             })
 
 
+<<<<<<< HEAD
             cb({loggedIn: true, un: un, sk: sk});
         } 
         else {
             // If the password did not pass the check, notify the user
             cb({err: "Incorrect user/password combination."});
             return;
+=======
+            cb({loggedIn: true, un: un, sk: sk, redirect: '/report.html'})
+        } 
+        else {
+            cb({errcode: 1})
+>>>>>>> Sessionusers
         }
     })
 }
