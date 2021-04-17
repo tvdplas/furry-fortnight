@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <div id="login-wrapper">
         <div id="login-box">
-            <input type="text" name="username" id="usernameinp">
-            <input type="text" name="password" id="pwinp">
+            <input type="text" name="username" placeholder="Username" id="usernameinp">
+            <input type="text" name="password" placeholder="Password" id="pwinp">
             <button onclick="Login()">Login</button>
         </div>
     </div>
@@ -29,10 +29,10 @@
                 {
                     let res = JSON.parse(xhr.responseText)
                     if (res.errcode == 1) {
-                        var node = document.createElement("H2");                 // Create a <li> node
-                        var textnode = document.createTextNode("Invalid login.");         // Create a text node
-                        node.appendChild(textnode);                              // Append the text to <li>
-                        document.getElementById("login-box").appendChild(node);     // Append <li> to <ul> with id="myList" 
+                        var node = document.createElement("H2");
+                        var textnode = document.createTextNode("Invalid login.");
+                        node.appendChild(textnode);
+                        document.getElementById("login-box").appendChild(node);
                     }
                 }
             }

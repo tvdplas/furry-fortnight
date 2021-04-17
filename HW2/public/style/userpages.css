@@ -1,11 +1,11 @@
-#login-wrapper {
+#control-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100vw;
     height: 100vh;
 }
-#login-box {
+#control-box {
     width: 600px;
     height: 400px;
     background-color: red;

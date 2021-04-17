@@ -167,15 +167,15 @@ function CheckAnswer(questionid, answer, cb) {
 
 function Register(un, pw, fn, cb) {
     if (un.length <= 3 || un.length > 16){
-        cb({err:"Username length incorrect"})
+        cb({errcode: 2})
         return;
     }
     if (pw.length <= 5){
-        cb({err:"Password is too short"})
+        cb({errcode: 3})
         return;
     }
     if (fn.length <= 1 || fn.length > 256){
-        cb({err:"Full name length is incorrect"})
+        cb({errcode: 4})
         return;
     }
     db.run(`
