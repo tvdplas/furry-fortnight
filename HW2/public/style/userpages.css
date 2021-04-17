@@ -1,0 +1,111 @@
+@import url("page-template.css");
+
+#control-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+#control-box {
+    width: 400px;
+    height: 600px;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    text-align: center;
+}
+#usernameinp{
+    background-color: #1E1E1E;
+    color: White;
+    border: none; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 10px;
+    outline: none;
+    font-family: 'Helios Regular';
+    
+}
+#pwinp{
+    background-color: #1E1E1E;
+    color: White;
+    border: none; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 10px;
+    outline: none;
+    font-family: 'Helios Regular';
+}
+#fninp{
+    background-color: #1E1E1E;
+    color: White;
+    border: none; 
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 10px; 
+    outline: none;
+    font-family: 'Helios Regular';
+}
+#progsec{
+    width: 800px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+#progsecwrap{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin:0;
+}
+.progressinside {
+    background-color: red;
+    height: 100%;
+    border-radius: 15px;
+}
+.progress {
+    background-color: gray;
+    height: 50px;
+    width: 100%;
+    border-radius: 15px;
+}
+
+#hwrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button{
+    background-color: white; 
+    color: black;
+    padding: 15px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Helios Regular';
+
+}
+body{
+    background-color: #121212;
+    padding: 0;
+    overflow-x: hidden;
+}
+h1{
+    position: relative;
+    top:0;
+    left:0;
+    transform: none;
+}
+
+@media only screen and (max-width: 600px) {
+    #control-box{
+      background-color: lightblue;
+      width: 80%;
+      
+    }
+  }

@@ -1,1 +1,1 @@
-INSERT INTO Questions VALUES ('quiz2', 'fdsafsa', 'HEE', 'jhffjds', 'OPEN')
+INSERT INTO MCQuestions VALUES ('t0q0-2', 'Downloaded');
