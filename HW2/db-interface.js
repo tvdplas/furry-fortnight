@@ -365,7 +365,7 @@ function ChangeFullname(ruu, fn, cb) {
     })
 }
 
-// Allows for the registering of new users
+// Registers a new user based on a username, password and fullname
 function Register(un, pw, fn, cb) {
     // Checks if the username is within bounds
     if (un.length <= 3 || un.length > 16){
@@ -402,7 +402,7 @@ function Register(un, pw, fn, cb) {
     })
 }
 
-// Logs a user in based on their un and pw
+// Checks the login based on a username and password
 function Login(un, pw, cb) {
     db.all(`
         SELECT HashedPassword 
@@ -446,17 +446,7 @@ function Login(un, pw, cb) {
     })
 }
 
-//source: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-function MakeSK(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
+// Checks the login from the cookie data
 function CheckLogin(un, sk, cb) {
     db.all(`
     SELECT ExperationDate
@@ -491,6 +481,17 @@ function CheckLogin(un, sk, cb) {
     });
 }
 
+//source: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+function MakeSK(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 //adapted from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -509,7 +510,7 @@ function shuffleArray(array) {
     }
   
     return array;
-  }
+}
  
 module.exports = {
     GetQuizInfo: GetQuizInfo,
@@ -523,5 +524,6 @@ module.exports = {
     GetUserInfo: GetUserInfo,
     SetActiveQuestion: SetActiveQuestion,
     GetActiveQuestion: GetActiveQuestion,
+    ChangeFullname, ChangeFullname,
     CheckLogin: CheckLogin
 };
