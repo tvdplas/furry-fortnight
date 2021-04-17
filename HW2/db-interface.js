@@ -216,7 +216,7 @@ function CheckAnswer(questionid, answer, ruu, cb) {
             })
         }
 
-        cb({IsCorrect: isCorrect});
+        cb({IsCorrect: isCorrect, CorrectAnswer: res.QuestionAnswer});
     });
 }
 
