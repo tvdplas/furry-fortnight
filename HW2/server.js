@@ -20,10 +20,12 @@ app.use("/*", (req, res, next) => {
 
            req.LoggedInUser = req.cookies.un
            next()
+           return;
         } 
         else if (dbres.err == "Session expired") {
             //Redirect client to a different page if their login is expired
-            res.redirect('/register.html');
+            res.redirect('/login.html');
+            return;
         }
         next()
     })
@@ -36,7 +38,10 @@ app.post("/register/", (req, res) => {
 });
 
 app.post("/login/", (req, res) => {
-    console.log("fhasuifdhsiua")
+    if (req.LoggedInUser) {
+        res.send({errcode: 300, redirect: '/report.html'});
+        return;
+    }
     dbi.Login(req.body.un, req.body.pw, (dbres) => {
         if (dbres.loggedIn) {
             console.log("Setting cookie")

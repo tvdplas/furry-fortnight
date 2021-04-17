@@ -186,7 +186,10 @@ function Register(un, pw, fn, cb) {
     (err) => {
         if (err && err.errno == 19) {
             cb({err: "User already exists"})
-        }  
+            return;
+        } 
+        cb({errcode: -1}) 
+        return;
     })
 }
 
@@ -221,7 +224,7 @@ function Login(un, pw, cb) {
             })
 
 
-            cb({loggedIn: true, un: un, sk: sk})
+            cb({loggedIn: true, un: un, sk: sk, redirect: '/report.html'})
         } 
         else {
             cb({errcode: 1})

@@ -8,8 +8,8 @@
     <title>Login</title>
 </head>
 <body>
-    <div id="login-wrapper">
-        <div id="login-box">
+    <div id="control-wrapper">
+        <div id="control-box">
             <input type="text" name="username" placeholder="Username" id="usernameinp">
             <input type="text" name="password" placeholder="Password" id="pwinp">
             <button onclick="Login()">Login</button>
@@ -27,13 +27,26 @@
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4)
                 {
+
+                    console.log(xhr.responseText)
                     let res = JSON.parse(xhr.responseText)
-                    if (res.errcode == 1) {
-                        var node = document.createElement("H2");
-                        var textnode = document.createTextNode("Invalid login.");
-                        node.appendChild(textnode);
-                        document.getElementById("login-box").appendChild(node);
+                    if (res.errcode == 300){
+                        window.location.replace(res.redirect)
                     }
+                    document.getElementById("errmsg")?.remove();
+                    var node = document.createElement("H2");
+                    node.id = "errmsg"
+                    var textnode
+                    
+                    if (res.errcode == 1) {
+                        textnode = document.createTextNode("Invalid login.");
+                        node.appendChild(textnode);
+                        document.getElementById("control-box").appendChild(node);
+                    }
+                    else if (res.loggedIn) {
+                        window.location.replace(res.redirect)
+                    }
+                    
                 }
             }
             xhr.send(JSON.stringify({

@@ -28,7 +28,14 @@
                 if (xhr.readyState == 4)
                 {           
                     let res = JSON.parse(xhr.responseText)
+                    console.log(res)
                     if (res.errcode){
+
+                        if (res.errcode == -1) {
+                            console.log("yep")
+                            window.location.replace("/login.html")
+                        }
+
                         document.getElementById("errmsg")?.remove();
                         var node = document.createElement("H2");
                         node.id = "errmsg"
@@ -44,6 +51,7 @@
                         }
                         node.appendChild(textnode);
                         document.getElementById("control-box").appendChild(node);
+                        
                     }
                 }
             }
