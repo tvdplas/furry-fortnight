@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style/userpages.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
 </head>
 <body>
+    <div id="progsecwrap">
+    <section id="progsec">
+        <h1>Progress</h1>
+    </section>
+    </div>
     <script>
          var xhr = new XMLHttpRequest();
          xhr.open("GET", '/completion/', true);
@@ -17,23 +23,40 @@
                     console.log(res)
                     for(i=0; i< res.length; i++)
                     {
+                        let percentage = Math.ceil((res[i].CQuestionCount / res[i].QuestionCount)*100) + "%"
+
                         let node = document.createElement("div")
+
+                        let hwrapper = document.createElement("div")
+                        hwrapper.id = "hwrapper"
+
                         let header = document.createElement("h2")
-                        let htext = document.createTextNode(res[i].quiztitle)
+                        let htext = document.createTextNode(res[i].QuizTitle)
                         header.appendChild(htext)
-                        node.appendChild(header)
+                        hwrapper.appendChild(header)
+
+                        let percCounter = document.createElement("h2")
+                        let percText = document.createTextNode(percentage)
+                        percCounter.id = "perccounter"
+                        percCounter.appendChild(percText)
+                        hwrapper.appendChild(percCounter)
+                        node.appendChild(hwrapper)
+
                         let progressdiv = document.createElement("div")
                         progressdiv.classList.add("progress");
                         node.appendChild(progressdiv)
+
                         let progressinsidediv = document.createElement("div")
+                        progressinsidediv.classList.add("progressinside");
                         progressinsidediv.id = "progress-" + i;
                         progressdiv.appendChild(progressinsidediv)
-                        
+                        progressinsidediv.style.width = percentage
+
+                        document.getElementById("progsec").appendChild(node)
                     }
                 }
             }
              xhr.send(null);
-           
     </script>
 </body>
 </html>
