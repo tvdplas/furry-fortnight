@@ -28,7 +28,7 @@ app.use("/*", (req, res, next) => {
            console.log("Registered user request, un: " + req.cookies.un);
 
            req.LoggedInUser = req.cookies.un
-           next()
+           next();
            return;
         } 
         else if (dbres.err == "Session expired") {
@@ -36,10 +36,10 @@ app.use("/*", (req, res, next) => {
             res.redirect('/login.html');
             return;
         }
-        next()
+        next();
         return;
-    })
-})
+    });
+});
 
 // Registering of new users
 app.post("/register/", (req, res) => {
@@ -81,7 +81,7 @@ app.post("/fnchange/", (req, res) => {
             res.send(dbres)
         });
     }
-})
+});
 
 // Get all of the topics which are available
 app.get("/topics/", (req, res) => {
@@ -111,8 +111,8 @@ app.get("/quizquestions/:quiz/", (req, res) => {
 app.get("/checkquestion/:questionid", (req, res) => {
     // Check if the user is logged in before they're allowed to check answers
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request: please log in")
-        return
+        res.status(400).send("Invalid request: please log in");
+        return;
     }
 
     // The answer must be passed as a query parameter
@@ -122,7 +122,7 @@ app.get("/checkquestion/:questionid", (req, res) => {
     }
 
     dbi.CheckAnswer(req.params.questionid, req.query.answer, req.LoggedInUser, (answerres) => {
-        // Sends a bool isCorrect
+        // Sends the correctness of the answer, and the correct answer
         res.send(answerres);
     });
 });
@@ -130,47 +130,47 @@ app.get("/checkquestion/:questionid", (req, res) => {
 app.get("/completion/", (req, res) => {
     //First, check if we have a RU.
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request")
+        res.status(400).send("Invalid request");
     }
     else {
         dbi.GetQuizCompletion(req.LoggedInUser, (dbres) => {
-            res.send(dbres)
-        })
+            res.send(dbres);
+        });
     }
 });
 
 app.get("/userinfo/", (req, res) => {
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request")
+        res.status(400).send("Invalid request");
     }
     else {
         dbi.GetUserInfo(req.LoggedInUser, (dbres) => {
-            res.send(dbres)
-        })
+            res.send(dbres);
+        });
     }
 });
 
 app.get("/setactivequestion/:qid/", (req, res) => {
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request")
+        res.status(400).send("Invalid request");
     }
     else {
         dbi.SetActiveQuestion(req.LoggedInUser, req.params.qid, (dbres) => {
-            res.send(dbres)
-        })
+            res.send(dbres);
+        });
     }
 });
 
 app.get("/getactivequestion/", (req, res) => {
     if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request")
+        res.status(400).send("Invalid request");
     }
     else {
         dbi.GetActiveQuestion(req.LoggedInUser, (dbres) => {
-            res.send(dbres)
-        })
+            res.send(dbres);
+        });
     }
-})
+});
 
 app.listen(8080, () => {
     console.log("Server started on port 8080");
