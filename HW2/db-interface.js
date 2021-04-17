@@ -150,7 +150,9 @@ function GetQuizQuestions(quizid, cb) {
                 if (qres[i].QuestionType == "MCQ") {
                     qres[i].Options = ores.filter(e => e.QuestionID == qres[i].QuestionID).map(e => e.QuestionOption);
                     qres[i].Options.push(qres[i].QuestionAnswer);
+                    qres[i].Options = shuffleArray(qres[i].Options);
                 }
+
                 
                 // Finally, remove the answer from the object so that the client doesnt get to see it
                 qres[i].QuestionAnswer = undefined;
@@ -464,6 +466,26 @@ function CheckLogin(un, sk, cb) {
         }
     });
 }
+
+//adapted from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffleArray(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
  
 module.exports = {
     GetQuizInfo: GetQuizInfo,
