@@ -1,0 +1,27 @@
+{
+  "name": "hw3-webtech",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGoldenFyre/furry-fortnight.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheGoldenFyre/furry-fortnight/issues"
+  },
+  "homepage": "https://github.com/TheGoldenFyre/furry-fortnight#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "password-hash": "^1.2.2",
+    "sqlite3": "^5.0.2"
+  }
+}
