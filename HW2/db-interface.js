@@ -2,7 +2,7 @@
 let fs = require("fs");
 let path = require("path");
 var sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database("./hw2/uwu.db");
+let db = new sqlite3.Database("./HW2/uwu.db");
 var passwordHash = require('password-hash');
 
 // Sets up the entire database and fills it with data.

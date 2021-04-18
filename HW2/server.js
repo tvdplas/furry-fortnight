@@ -56,6 +56,6 @@ app.all("*", (req, res) => {
     res.status(404).send("Page not found")
 })
 
-app.listen(8080, () => {
-    console.log("Server started on port 8080");
+app.listen(8045, () => {
+    console.log("Server started on port 8045");
 });
