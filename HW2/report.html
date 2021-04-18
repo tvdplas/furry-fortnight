@@ -12,7 +12,7 @@
 <body>
     <div id="control-box">
         <input type="text" name="name" placeholder="New Full name" id="fninp">
-        <button onclick="fnchange()">Change Full name</button>
+        <button onclick="FNChange()">Change Full name</button>
     </div>
     <div id="progsecwrap">
         <section id="progsec">
@@ -20,48 +20,63 @@
         </section>
     </div>
     <script>
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", '/completion/', true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4) {
-                let res = JSON.parse(xhr.responseText)
-                console.log(res)
+        var sessionQuestionsXHR = new XMLHttpRequest();
+        sessionQuestionsXHR.open("GET", '/sessionquestions/', false);
+        sessionQuestionsXHR.onreadystatechange = () => {
+            if (sessionQuestionsXHR.readyState == 4) {
+                let res = JSON.parse(sessionQuestionsXHR.responseText)
+                res.QuizTitle = "Correct answers in session"
+                MakeProgressBar(res, 0)
+            }
+        }
+        sessionQuestionsXHR.send(null);
+
+        var completedQuizesXHR = new XMLHttpRequest();
+        completedQuizesXHR.open("GET", '/completion/', true);
+        completedQuizesXHR.onreadystatechange = () => {
+            if (completedQuizesXHR.readyState == 4) {
+                let res = JSON.parse(completedQuizesXHR.responseText)
                 for (i = 0; i < res.length; i++) {
-                    let percentage = Math.ceil((res[i].CQuestionCount / res[i].QuestionCount) * 100) + "%"
-
-                    let node = document.createElement("div")
-
-                    let hwrapper = document.createElement("div")
-                    hwrapper.id = "hwrapper"
-
-                    let header = document.createElement("h2")
-                    let htext = document.createTextNode(res[i].QuizTitle)
-                    header.appendChild(htext)
-                    hwrapper.appendChild(header)
-
-                    let percCounter = document.createElement("h2")
-                    let percText = document.createTextNode(percentage)
-                    percCounter.id = "perccounter"
-                    percCounter.appendChild(percText)
-                    hwrapper.appendChild(percCounter)
-                    node.appendChild(hwrapper)
-
-                    let progressdiv = document.createElement("div")
-                    progressdiv.classList.add("progress");
-                    node.appendChild(progressdiv)
-
-                    let progressinsidediv = document.createElement("div")
-                    progressinsidediv.classList.add("progressinside");
-                    progressinsidediv.id = "progress-" + i;
-                    progressdiv.appendChild(progressinsidediv)
-                    progressinsidediv.style.width = percentage
-
-                    document.getElementById("progsec").appendChild(node)
+                    MakeProgressBar(res[i], i+1)
                 }
             }
         }
-        xhr.send(null);
-        function fnchange() {
+        completedQuizesXHR.send(null);
+
+        function MakeProgressBar(data, i) {
+            let percentage = Math.ceil((data.CQuestionCount / data.QuestionCount) * 100) + "%"
+
+            let node = document.createElement("div")
+
+            let hwrapper = document.createElement("div")
+            hwrapper.id = "hwrapper"
+
+            let header = document.createElement("h2")
+            let htext = document.createTextNode(data.QuizTitle)
+            header.appendChild(htext)
+            hwrapper.appendChild(header)
+
+            let percCounter = document.createElement("h2")
+            let percText = document.createTextNode(percentage)
+            percCounter.id = "perccounter"
+            percCounter.appendChild(percText)
+            hwrapper.appendChild(percCounter)
+            node.appendChild(hwrapper)
+
+            let progressdiv = document.createElement("div")
+            progressdiv.classList.add("progress");
+            node.appendChild(progressdiv)
+
+            let progressinsidediv = document.createElement("div")
+            progressinsidediv.classList.add("progressinside");
+            progressinsidediv.id = "progress-" + i;
+            progressdiv.appendChild(progressinsidediv)
+            progressinsidediv.style.width = percentage
+
+            document.getElementById("progsec").appendChild(node)
+        }
+
+        function FNChange() {
 
             let fn = document.getElementById("fninp").value
 
