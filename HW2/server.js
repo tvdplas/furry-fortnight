@@ -8,7 +8,7 @@ const morgan = require("morgan");
 app.use(morgan("combined"));
 
 //Static files
-app.use("group45", express.static(path.resolve("./HW2/public")));
+app.use(express.static(path.resolve("./HW2/public")));
 
 //Post request data handling
 var bodyParser = require('body-parser');
