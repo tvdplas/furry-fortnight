@@ -259,7 +259,7 @@ function SetActiveQuestion(ruu, qid, cb) {
     `, 
     [ruu],
     (checkErr, checkRes) => {
-        if (checkErr) throw checkErr;
+        if (checkErr) console.log(checkErr);
 
         //If there's a result, we know that there must already be a row for this user.
         //Thus, we can update it
@@ -271,7 +271,7 @@ function SetActiveQuestion(ruu, qid, cb) {
             `,
             [qid, ruu],
             (err) => {
-                if (err && err.errcode != 19) throw err;
+                if (err && err.errcode != 19) console.log(err);
                 cb({msg: "OK"});
             })
         }
@@ -283,7 +283,7 @@ function SetActiveQuestion(ruu, qid, cb) {
             `,
             [ruu, qid],
             (err) => {
-                if (err) throw err;
+                if (err) console.log(err);
                 cb({msg: "OK"});
             });
         }
@@ -304,7 +304,7 @@ function GetActiveQuestion(ruu, cb) {
     `,
     [ruu],
     (err, res) => {
-        if (err) throw err;
+        if (err) console.log(err);
         if (res.length == 0) {
             cb({err: "No active question"});
         } 
@@ -325,7 +325,7 @@ function GetUserInfo(ruu, cb) {
     `, 
     [ruu],
     (err, res) => {
-        if (err) throw err;
+        if (err) console.log(err);
         cb(res);
     })
 }
@@ -344,7 +344,7 @@ function GetQuizCompletion (ruu, cb) {
         WHERE Questions.QuizID = Quizes.QuizID
         GROUP BY Questions.QuizID
     `, (quizerr, quizData) => {
-        if (quizerr) throw quizerr;
+        if (quizerr) console.log(quizerr);
 
         //Then, select the amount of questions that's correct for each of the quizes
         db.all(`
@@ -357,7 +357,7 @@ function GetQuizCompletion (ruu, cb) {
         `, 
         [ruu], 
         (answerErr, correctQuestions) => {
-            if (answerErr) throw answerErr;
+            if (answerErr) console.log(answerErr);
 
             //Match the quizdata to the correctquestions data
             for (let i = 0; i < quizData.length; i++) {
@@ -388,7 +388,7 @@ function ChangeFullname(ruu, fn, cb) {
     `, 
     [fn, ruu], 
     (err) => {
-        if (err) throw err;
+        if (err) console.log(err);
 
         cb({msg: "OK", errcode: -2});
     })
@@ -461,7 +461,7 @@ function Login(un, pw, cb) {
     `, 
     [un],
     (err, res) => {
-        if (err) throw err;
+        if (err) console.log(err);
 
         // If the resulting array doesn't contain anything,
         // the user must not exist.
@@ -486,8 +486,8 @@ function Login(un, pw, cb) {
             `,
             [un, sk, expire.toISOString().slice(0, 19).replace('T', ' ')], 
             (sesInsertErr) => {
-                if (sesInsertErr) throw sesInsertErr;
-            })
+                if (sesInsertErr) console.log(sesInsertErr);
+            });
 
 
             cb({loggedIn: true, un: un, sk: sk, redirect: './profile'});
@@ -507,7 +507,7 @@ function CheckLogin(un, sk, cb) {
     `,
     [un, sk],
     (dberr, dbres) => {
-        if (dberr) throw dberr;
+        if (dberr) console.log(dberr);
 
         // If there's no result for this un/sk combination, let the user know
         // that they can't log in.
