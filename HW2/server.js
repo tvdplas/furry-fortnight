@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+SetupDB()
+
 // Login check
 app.use("/*", (req, res, next) => {
     // On every request made, check if a user passes a valid session token
@@ -49,6 +51,7 @@ app.use(userroute)
 
 //Everything related directly to quizes
 let quizroute = require("./quiz-route.js");
+const { SetupDB } = require("./db-interface.js");
 app.use(quizroute);
 
 //Catch-all invalid page handler
