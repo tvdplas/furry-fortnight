@@ -14,8 +14,14 @@ function getTopics(url){
             removeChild(main);
             res.forEach((topic) => {
                 let button = document.createElement("button");
-                button.innerHTML = "<h2>" + topic.TopicTitle + "</h2><p>" + topic.TopicDesc + "</p>";
                 button.classList.add("topic-button");
+                let bh = document.createElement("h2");
+                bh.appendChild(document.createTextNode(topic.TopicTitle));
+                let bp = document.createElement("p");
+                bp.appendChild(document.createTextNode(topic.TopicDesc));
+                button.appendChild(bh);
+                button.appendChild(bp);
+
                 button.addEventListener("click", function(){
                     selectedTopic = topic.TopicTitle;
                     selectedTopicID = topic.TopicID;
@@ -41,8 +47,15 @@ function quizType(id){
             var res = JSON.parse(xmlHttp.responseText);
             res.forEach((quiz) => {
                 let button = document.createElement("button");
-                button.innerHTML = "<h2>" + quiz.QuizTitle.split("-")[0] + "</h2><p>" + quiz.QuizTitle.split("-")[1] + "</p>";
                 button.classList.add("topic-button");
+
+                let bh = document.createElement("h2");
+                bh.appendChild(document.createTextNode(quiz.QuizTitle.split("-")[0]));
+                let bp = document.createElement("p");
+                bp.appendChild(document.createTextNode(quiz.QuizTitle.split("-")[1]));
+                button.appendChild(bh);
+                button.appendChild(bp);
+
                 button.addEventListener("click", function(){
                     quizQuestions(quiz.QuizID);
                 });
@@ -70,7 +83,7 @@ function quizQuestions(id){
                 section.setAttribute("id", questions.QuestionID + "s");
                 main.appendChild(section);
                 let question = document.createElement("h3");
-                question.innerText = questions.QuestionStatement;
+                question.appendChild(document.createTextNode(questions.QuestionStatement));
                 section.appendChild(question);
                 let button = document.createElement("button");
                 button.appendChild(document.createTextNode("Check answer"));
@@ -166,6 +179,10 @@ function checkQuestion(id, answer){
                 if(selectedTopic == "Notepad++"){
                     link = "notepadpp";
                 }
+
+                //InnerHTML is used here because in our research, it was not possible
+                //to place an <a> tag in the middle of a single paragraph using formal
+                //dom manipulation. 
                 p.innerHTML = 'Incorrect. The correct answer was: "'+ res.CorrectAnswer +'". For more info, go to the <a href="./' + link.toLowerCase() + '.html">' + selectedTopic + ' page</a>';
                 resP.appendChild(document.createTextNode("✖"));
             }
