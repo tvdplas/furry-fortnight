@@ -1,3 +1,5 @@
+document.getElementById("fnbutt").addEventListener("click", FNChange)
+
 //Since we know users will be logged in on this page, we can safely make requests for their progress
 
 //Set the welcome message
@@ -97,7 +99,7 @@ function FNChange() {
             var textnode
 
             //Handle errors, negative numbers are OK
-            switch (errcode) {
+            switch (res.errcode) {
                 case 4:
                     textnode = document.createTextNode("Full name is too short");
                     break;
