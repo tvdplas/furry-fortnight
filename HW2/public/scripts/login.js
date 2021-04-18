@@ -20,6 +20,10 @@ function Login() {
                 return;
             }
 
+            if (res.loggedIn) {
+                window.location.replace(res.redirect)
+            }
+
             // If there was an existing error message, remove it
             document.getElementById("errmsg")?.remove();
 
@@ -38,11 +42,6 @@ function Login() {
 
             node.appendChild(textnode);
             document.getElementById("control-box").appendChild(node);
-            
-            //Lastly, if the user was just succesfully logged in, redirect according to the server
-            if (res.loggedIn) {
-                window.location.replace(res.redirect)
-            }
         }
     }
     //Send the login attempt

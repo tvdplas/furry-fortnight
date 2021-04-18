@@ -1,4 +1,6 @@
 document.getElementById("fnbutt").addEventListener("click", FNChange)
+document.getElementById("lobutt").addEventListener("click", Logout)
+
 
 //Since we know users will be logged in on this page, we can safely make requests for their progress
 
@@ -143,4 +145,12 @@ function WelcomeMsg() {
         }
     }
     welcomeXHR.send(null);
+}
+
+function Logout() {
+    var allCookies = document.cookie.split(';');
+    for (var i = 0; i < allCookies.length; i++)
+        document.cookie = allCookies[i] + "=;expires="
+        + new Date(0).toUTCString();
+    location.reload(); 
 }

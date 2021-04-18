@@ -152,7 +152,10 @@ h1{
         height: 40%;
       }
       #progsecwrap{
-          width:90%;
+          width:100%;
+          justify-content: center;
       }
-    
+      #progsec {
+          width: 90%;
+      }
   }
