@@ -32,8 +32,10 @@ app.use("/*", (req, res, next) => {
            return;
         } 
         else if (dbres.err == "Session expired") {
-            //Redirect client to a different page if their login is expired
-            res.redirect('/login.html');
+            //Send error and wait for the client to log in again
+            res.clearCookie("sk")
+            res.clearCookie("un")
+            res.send({errcode: 11});    
             return;
         }
         next();
