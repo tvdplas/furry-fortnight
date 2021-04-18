@@ -19,8 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-SetupDB()
-
 // Login check
 app.use("/*", (req, res, next) => {
     // On every request made, check if a user passes a valid session token
