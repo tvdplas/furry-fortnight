@@ -2,7 +2,7 @@ let main = document.getElementById('assessment-questions');
 var xmlHttp = new XMLHttpRequest();
 var selectedTopic, activeQuestion, selectedTopicID;
 let backButton = document.createElement("button");
-backButton.appendChild(document.createTextNode("&#8592;"));
+backButton.appendChild(document.createTextNode("←"));
 backButton.classList.add("back-button");
 let buttonDiv = document.createElement("div");
 buttonDiv.classList.add("button-div");
