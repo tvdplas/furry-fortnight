@@ -1,6 +1,7 @@
 let main = document.getElementById('assessment-questions');
 var xmlHttp = new XMLHttpRequest();
 var selectedTopic;
+var activeQuestion;
 
 function getTopics(url){
     xmlHttp.onreadystatechange = function() {
@@ -59,7 +60,6 @@ function quizQuestions(id){
                 let button = document.createElement("button");
                 button.appendChild(document.createTextNode("Check answer"));
                 button.setAttribute("id", questions.QuestionID + "b");
-                console.log(document.getElementById(id + "b"));
                 button.classList.add("answer-button");
                 
                 if(questions.QuestionType === "MCQ"){
@@ -122,9 +122,14 @@ function quizQuestions(id){
                         }
                     });
                 }
-
-                section.appendChild(button);   
+                section.appendChild(button); 
             });
+
+            if(activeQuestion){
+                var scroll = document.getElementById(activeQuestion + "s");
+                //var txt = scroll.childNodes[0];
+                scroll.scrollIntoView({behavior: "smooth", block: "start"});
+            }
         }
     }
     xmlHttp.open("GET", "./quizquestions/" + id, true);
@@ -147,7 +152,7 @@ function checkQuestion(id, answer){
                 if(selectedTopic == "Notepad++"){
                     link = "Notepadpp";
                 }
-                p.innerHTML = 'Incorrect. The correct answer was: "answer i dont have yet". For more info, go to the <a href="./' + link + '.html">' + selectedTopic + ' page</a>';
+                p.innerHTML = 'Incorrect. The correct answer was: "'+ res.CorrectAnswer +'". For more info, go to the <a href="./' + link + '.html">' + selectedTopic + ' page</a>';
                 resP.appendChild(document.createTextNode("✖"));
             }
             else{
@@ -157,9 +162,22 @@ function checkQuestion(id, answer){
             sect.classList.add("question--completed");
             sect.appendChild(resP);
             sect.appendChild(p);
+            console.log(id);
+            newActiveQuestion(id);
+        }
+        else if(this.readyState == 4 && this.status == 400){
+            var res = JSON.parse(xmlHttp.responseText);
+            if(res.errcode == 6){
+                window.location.replace("/report.html")
+            }
         }
       };
       xmlHttp.open("GET", "/checkquestion/" + id + "?answer=" + answer, true);
+      xmlHttp.send();
+}
+
+function newActiveQuestion(id){
+      xmlHttp.open("GET", "/setactivequestion/" + id, true);
       xmlHttp.send();
 }
 
@@ -169,4 +187,24 @@ function removeChild(parent) {
     }
 }
 
-getTopics("./topics");
+function getActiveQuestion(){
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = JSON.parse(xmlHttp.responseText);
+            if(res.QuestionID){
+                quizQuestions(res.QuizID);
+                activeQuestion = res.QuestionID;
+            }
+            else{
+                getTopics("./topics");
+            }
+        }
+        if (this.readyState == 4 && this.status == 400) {
+            getTopics("./topics");
+        }
+    }
+    xmlHttp.open("GET", "./getactivequestion/", true);
+    xmlHttp.send();
+}      
+
+getActiveQuestion();
