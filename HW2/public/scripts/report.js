@@ -149,8 +149,10 @@ function WelcomeMsg() {
 
 function Logout() {
     var allCookies = document.cookie.split(';');
-    for (var i = 0; i < allCookies.length; i++)
+    for (var i = 0; i < allCookies.length; i++) {
+        if (allCookies[i].slice(0, 2) == "sk" || allCookies[i].slice(0, 2) == "un")
         document.cookie = allCookies[i] + "=;expires="
         + new Date(0).toUTCString();
+    }
     location.reload(); 
 }
