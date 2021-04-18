@@ -441,7 +441,7 @@ function Register(un, pw, fn, cb) {
     (err) => {
         // If an error occurs, it's most likely to do with the primary key constraint
         if (err && err.errno == 19) {
-            cb({err: "User already exists"});
+            cb({errcode: 5});
             return;
         } 
         cb({errcode: -1});

@@ -7,8 +7,6 @@ function Login() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
-
-            console.log(xhr.responseText)
             let res = JSON.parse(xhr.responseText)
             if (res.errcode == 300) {
                 window.location.replace(res.redirect)

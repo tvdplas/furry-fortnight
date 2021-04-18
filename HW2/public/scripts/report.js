@@ -23,6 +23,7 @@ completedQuizesXHR.send(null);
 
 function MakeProgressBar(data, i) {
     let percentage = Math.ceil((data.CQuestionCount / data.QuestionCount) * 100) + "%"
+    if (data.QuestionCount == 0) percentage = 0
 
     let node = document.createElement("div")
 
