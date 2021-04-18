@@ -71,6 +71,16 @@ app.post("/login/", (req, res) => {
     });
 });
 
+//If a user tries to request their profile, make sure they're logged in first
+//Otherwise, make them do that
+app.get("/profile/", (req, res) => {
+    if (!req.LoggedInUser) {
+        res.redirect("/login.html");
+    } else {
+        res.sendFile(path.resolve('HW2/report.html'));
+    }    
+})
+
 app.post("/fnchange/", (req, res) => {
     //First, check if we have a RU.
     if (!req.LoggedInUser) {
