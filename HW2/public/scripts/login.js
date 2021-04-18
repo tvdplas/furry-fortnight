@@ -7,7 +7,7 @@ function Login() {
     let pw = document.getElementById("pwinp").value
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/login/', true);
+    xhr.open("POST", './login/', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
