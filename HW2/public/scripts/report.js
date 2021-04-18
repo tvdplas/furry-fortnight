@@ -152,7 +152,7 @@ function Logout() {
     for (var i = 0; i < allCookies.length; i++) {
         console.log(allCookies[i].slice(0, 3))
         if (allCookies[i].slice(0, 3) == "sk" || allCookies[i].slice(0, 3) == "un") {
-            document.cookie = allCookies[i] + "=;expires=" + new Date(0).toUTCString();
+            //document.cookie = allCookies[i] + "=;expires=" + new Date(0).toUTCString();
         } else {
             document.cookie = allCookies[i]
         }
