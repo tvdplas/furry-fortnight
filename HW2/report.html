@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div id="control-box">
+    <div id="fn-box">
         <input type="text" name="name" placeholder="New Full name" id="fninp">
         <button onclick="FNChange()">Change Full name</button>
     </div>
@@ -20,6 +20,24 @@
         </section>
     </div>
     <script>
+         var welcomeXHR = new XMLHttpRequest();
+            welcomeXHR.open("GET", '/userinfo/', false);
+            welcomeXHR.onreadystatechange = () =>
+            {
+                if (welcomeXHR.readyState == 4) {
+                    let res = JSON.parse(welcomeXHR.responseText)
+                    document.getElementById("welcomemsg")?.remove();
+                    var node = document.createElement("H2");
+                    node.id = "welcomemsg"
+                    var textnode
+                    textnode = document.createTextNode("Welcome " + res.FullName)
+                    node.appendChild(textnode);
+                    document.getElementById("fn-box").prepend(node);
+                }
+
+            }
+            welcomeXHR.send(null);
+
         var sessionQuestionsXHR = new XMLHttpRequest();
         sessionQuestionsXHR.open("GET", '/sessionquestions/', false);
         sessionQuestionsXHR.onreadystatechange = () => {
@@ -98,13 +116,16 @@
                         textnode = document.createTextNode("Full name changed succesfully!")
                     }
                     node.appendChild(textnode);
-                    document.getElementById("control-box").appendChild(node);
+                    document.getElementById("fn-box").appendChild(node);
                 }
             }
             xhr.send(JSON.stringify({
                 fn: fn
             }));
+        
+        
         }
+        
     </script>
 </body>
 
