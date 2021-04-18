@@ -41,156 +41,17 @@ app.use("/*", (req, res, next) => {
     });
 });
 
-// Registering of new users
-app.post("/register/", (req, res) => {
-    dbi.Register(req.body.un, req.body.pw, req.body.fn, (dbres) => {
-        res.send(dbres);
-    });
-});
+// Everything related to users and their info
+let userroute = require("./user-route")
+app.use(userroute)
 
-// Logging in of users
-app.post("/login/", (req, res) => {
-    if (req.LoggedInUser) {
-        res.send({errcode: 300, redirect: '/profile'});
-        return;
-    }
-    dbi.Login(req.body.un, req.body.pw, (dbres) => {
-        
-        if (dbres.loggedIn) {
-            // If the user provided valid credentials, set a browser cookie
-            // with the username and sessionkey which can be checked later.
-            // NOTE: because of time zone issues with the dates, the default
-            // age of the cookies is set to one day, which is longer than the db time.
-            console.log("Setting cookie");
-            res.cookie("un", dbres.un, { maxAge:24*60*60*1000, httpOnly: false });
-            res.cookie("sk", dbres.sk, { maxAge:24*60*60*1000, httpOnly: false });
-        }
+//Everything related directly to quizes
+let quizroute = require("./quiz-route.js");
+app.use(quizroute);
 
-        // Send the result of the database query to the client for handling
-        res.send(dbres);
-    });
-});
-
-//If a user tries to request their profile, make sure they're logged in first
-//Otherwise, make them do that
-app.get("/profile/", (req, res) => {
-    if (!req.LoggedInUser) {
-        res.redirect("/login.html");
-    } else {
-        res.sendFile(path.resolve('HW2/report.html'));
-    }    
-})
-
-app.post("/fnchange/", (req, res) => {
-    //First, check if we have a RU.
-    if (!req.LoggedInUser) {
-        res.status(400).send({err: "Invalid request"});
-        return;
-    } else {
-        dbi.ChangeFullname(req.LoggedInUser, req.body.fn, (dbres) => {
-            res.send(dbres)
-        });
-    }
-});
-
-// Get all of the topics which are available
-app.get("/topics/", (req, res) => {
-    dbi.GetTopics((topicres) => {
-        // Sends an array with the id, title and description
-        res.send(topicres);
-    });
-});
-
-// Get all of the quizes for a given topic id
-app.get("/quizes/:topicid/", (req, res) => {
-    dbi.GetQuizInfo(req.params.topicid, (quizesres) => {
-        // Sends an array of quizes with the quiz id, name and amount of questions
-        res.send(quizesres);
-    });
-});
-
-// Get all of the questions for a given quiz id
-app.get("/quizquestions/:quiz/", (req, res) => {
-    dbi.GetQuizQuestions(req.params.quiz, (quizres) => {
-        // Sends an array of questions with the question id, type, title (and possible answers for MCQ)
-        res.send(quizres);
-    });
-});
-
-// Checks if the answer to a questionid is the right one
-app.get("/checkquestion/:questionid", (req, res) => {
-    // Check if the user is logged in before they're allowed to check answers
-    if (!req.LoggedInUser) {
-        res.status(400).send({msg: "Invalid request: please log in", errcode: 6});
-        return;
-    }
-
-    // The answer must be passed as a query parameter
-    if (!req.query.answer) {
-        res.status(400).send({ msg: "Invalid request: no answer found", errcode: 7});
-        return;
-    }
-
-    dbi.CheckAnswer(req.params.questionid, req.query.answer, req.LoggedInUser, req.cookies.sk, (answerres) => {
-        // Sends the correctness of the answer, and the correct answer
-        res.send(answerres);
-    });
-});
-
-app.get("/completion/", (req, res) => {
-    //First, check if we have a RU.
-    if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request");
-    }
-    else {
-        dbi.GetQuizCompletion(req.LoggedInUser, (dbres) => {
-            res.send(dbres);
-        });
-    }
-});
-
-app.get("/userinfo/", (req, res) => {
-    if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request");
-    }
-    else {
-        dbi.GetUserInfo(req.LoggedInUser, (dbres) => {
-            res.send(dbres);
-        });
-    }
-});
-
-app.get("/setactivequestion/:qid/", (req, res) => {
-    if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request");
-    }
-    else {
-        dbi.SetActiveQuestion(req.LoggedInUser, req.params.qid, (dbres) => {
-            res.send(dbres);
-        });
-    }
-});
-
-app.get("/getactivequestion/", (req, res) => {
-    if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request");
-    }
-    else {
-        dbi.GetActiveQuestion(req.LoggedInUser, (dbres) => {
-            res.send(dbres);
-        });
-    }
-});
-
-app.get("/sessionquestions/", (req, res) => {
-    if (!req.LoggedInUser) {
-        res.status(400).send("Invalid request");
-    }
-    else {
-        dbi.GetSessionQuestions(req.LoggedInUser, req.cookies.sk, (dbres) => {
-            res.send(dbres);
-        });
-    }
+//Catch-all invalid page handler
+app.all("*", (req, res) => {
+    res.status(404).send("Page not found")
 })
 
 app.listen(8080, () => {
