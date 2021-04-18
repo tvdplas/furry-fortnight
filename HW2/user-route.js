@@ -24,8 +24,8 @@ router.post("/login/", (req, res) => {
             // NOTE: because of time zone issues with the dates, the default
             // age of the cookies is set to one day, which is longer than the db time.
             console.log("Setting cookie");
-            res.cookie("un", dbres.un, { maxAge:24*60*60*1000, httpOnly: false });
-            res.cookie("sk", dbres.sk, { maxAge:24*60*60*1000, httpOnly: false });
+            res.cookie("un", dbres.un, { maxAge:24*60*60*1000, httpOnly: false, path: "/group45" });
+            res.cookie("sk", dbres.sk, { maxAge:24*60*60*1000, httpOnly: false, path: "/group45" });
         }
 
         // Send the result of the database query to the client for handling
