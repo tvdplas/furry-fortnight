@@ -113,7 +113,7 @@ function FNChange() {
             }
 
             node.appendChild(textnode);
-            document.getElementById("control-box").appendChild(node);
+            document.getElementById("fn-box").appendChild(node);
         }
     }
     xhr.send(JSON.stringify({
