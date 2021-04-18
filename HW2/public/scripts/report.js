@@ -106,7 +106,7 @@ function FNChange() {
                     textnode = document.createTextNode("Full name is too short");
                     break;
                 case -2:
-                    textnode = document.createTextNode("Username changed!");
+                    textnode = document.createTextNode("Full name changed!");
                     WelcomeMsg();
                     break;
                 default:
