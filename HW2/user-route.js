@@ -13,7 +13,7 @@ router.post("/register/", (req, res) => {
 // Logging in of users
 router.post("/login/", (req, res) => {
     if (req.LoggedInUser) {
-        res.send({errcode: 300, redirect: '/profile'});
+        res.send({errcode: 300, redirect: './profile'});
         return;
     }
     dbi.Login(req.body.un, req.body.pw, (dbres) => {
@@ -37,9 +37,9 @@ router.post("/login/", (req, res) => {
 //Otherwise, make them do that
 router.get("/profile/", (req, res) => {
     if (!req.LoggedInUser) {
-        res.redirect("/login.html");
+        res.redirect("./login.html");
     } else {
-        res.sendFile(path.resolve('HW2/report.html'));
+        res.sendFile(path.resolve('./HW2/report.html'));
     }    
 })
 

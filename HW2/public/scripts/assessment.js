@@ -168,16 +168,16 @@ function checkQuestion(id, answer){
         else if(this.readyState == 4 && this.status == 400){
             var res = JSON.parse(xmlHttp.responseText);
             if(res.errcode == 6){
-                window.location.replace("/profile")
+                window.location.replace("./profile")
             }
         }
       };
-      xmlHttp.open("GET", "/checkquestion/" + id + "?answer=" + answer, true);
+      xmlHttp.open("GET", "./checkquestion/" + id + "?answer=" + answer, true);
       xmlHttp.send();
 }
 
 function newActiveQuestion(id){
-      xmlHttp.open("GET", "/setactivequestion/" + id, true);
+      xmlHttp.open("GET", "./setactivequestion/" + id, true);
       xmlHttp.send();
 }
 

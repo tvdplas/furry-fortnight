@@ -10,7 +10,7 @@ WelcomeMsg();
 //Get the amount of questions they did in this session
 var sessionQuestionsXHR = new XMLHttpRequest();
 //Done synchronously so that this is always the first bar that is displayed
-sessionQuestionsXHR.open("GET", '/sessionquestions/', false);
+sessionQuestionsXHR.open("GET", './sessionquestions/', false);
 sessionQuestionsXHR.onreadystatechange = () => {
     if (sessionQuestionsXHR.readyState == 4) {
         let res = JSON.parse(sessionQuestionsXHR.responseText)
@@ -26,7 +26,7 @@ sessionQuestionsXHR.send(null);
 
 //Then, get all of their completed questions
 var completedQuizesXHR = new XMLHttpRequest();
-completedQuizesXHR.open("GET", '/completion/', true);
+completedQuizesXHR.open("GET", './completion/', true);
 completedQuizesXHR.onreadystatechange = () => {
     if (completedQuizesXHR.readyState == 4) {
         let res = JSON.parse(completedQuizesXHR.responseText)
@@ -87,7 +87,7 @@ function FNChange() {
 
     //Then, create a post request for the name change
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/fnchange/', true);
+    xhr.open("POST", './fnchange/', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
@@ -126,7 +126,7 @@ function FNChange() {
 //Sets the welcome message at the top of the screen
 function WelcomeMsg() {
     var welcomeXHR = new XMLHttpRequest();
-    welcomeXHR.open("GET", '/userinfo/', false);
+    welcomeXHR.open("GET", './userinfo/', false);
     welcomeXHR.onreadystatechange = () => {
         if (welcomeXHR.readyState == 4) {
             let res = JSON.parse(welcomeXHR.responseText);

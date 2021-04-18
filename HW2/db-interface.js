@@ -490,7 +490,7 @@ function Login(un, pw, cb) {
             })
 
 
-            cb({loggedIn: true, un: un, sk: sk, redirect: '/profile'});
+            cb({loggedIn: true, un: un, sk: sk, redirect: './profile'});
         } 
         else {
             cb({errcode: 1});

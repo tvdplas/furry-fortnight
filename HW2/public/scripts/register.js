@@ -8,7 +8,7 @@ function Register() {
     let fn = document.getElementById("fninp").value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/register/', true);
+    xhr.open("POST", './register/', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
@@ -20,7 +20,7 @@ function Register() {
                 // If we get a negative error code, the register succeeded.
                 // The user is then asked to log in
                 if (res.errcode == -1) {
-                    window.location.replace("/login.html");
+                    window.location.replace("./login.html");
                     return;
                 }
 
