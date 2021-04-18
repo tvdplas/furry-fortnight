@@ -1,18 +1,24 @@
 let main = document.getElementById('assessment-questions');
 var xmlHttp = new XMLHttpRequest();
-var selectedTopic;
-var activeQuestion;
+var selectedTopic, activeQuestion, selectedTopicID;
+let backButton = document.createElement("button");
+backButton.innerHTML = "&#8592;";
+backButton.classList.add("back-button");
+let buttonDiv = document.createElement("div");
+buttonDiv.classList.add("button-div");
 
 function getTopics(url){
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var res = JSON.parse(xmlHttp.responseText);
+            removeChild(main);
             res.forEach((topic) => {
                 let button = document.createElement("button");
                 button.innerHTML = "<h2>" + topic.TopicTitle + "</h2><p>" + topic.TopicDesc + "</p>";
                 button.classList.add("topic-button");
                 button.addEventListener("click", function(){
                     selectedTopic = topic.TopicTitle;
+                    selectedTopicID = topic.TopicID;
                     quizType(topic.TopicID);
                 });
                 main.appendChild(button);
@@ -27,6 +33,11 @@ function quizType(id){
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             removeChild(main);
+            backButton.addEventListener("click", function(){
+                getTopics("./topics");
+            });
+            main.appendChild(buttonDiv);
+            buttonDiv.appendChild(backButton);
             var res = JSON.parse(xmlHttp.responseText);
             res.forEach((quiz) => {
                 let button = document.createElement("button");
@@ -35,7 +46,6 @@ function quizType(id){
                 button.addEventListener("click", function(){
                     quizQuestions(quiz.QuizID);
                 });
-                
                 main.appendChild(button);
             });
         }
@@ -48,6 +58,11 @@ function quizQuestions(id){
     xmlHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             removeChild(main);
+            backButton.addEventListener("click", function(){
+                quizType(selectedTopicID);
+            });
+            main.appendChild(buttonDiv);
+            buttonDiv.appendChild(backButton);
             var res = JSON.parse(xmlHttp.responseText);
             res.forEach((questions) => {
                 var answer;
@@ -127,7 +142,6 @@ function quizQuestions(id){
 
             if(activeQuestion){
                 var scroll = document.getElementById(activeQuestion + "s");
-                //var txt = scroll.childNodes[0];
                 scroll.scrollIntoView({behavior: "smooth", block: "start"});
             }
         }
@@ -162,7 +176,6 @@ function checkQuestion(id, answer){
             sect.classList.add("question--completed");
             sect.appendChild(resP);
             sect.appendChild(p);
-            console.log(id);
             newActiveQuestion(id);
         }
         else if(this.readyState == 4 && this.status == 400){
@@ -194,6 +207,8 @@ function getActiveQuestion(){
             if(res.QuestionID){
                 quizQuestions(res.QuizID);
                 activeQuestion = res.QuestionID;
+                selectedTopic = res.TopicTitle;
+                selectedTopicID = res.TopicID;
             }
             else{
                 getTopics("./topics");
