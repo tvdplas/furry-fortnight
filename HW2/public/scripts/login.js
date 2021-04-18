@@ -1,4 +1,8 @@
+document.getElementById("logbutt").addEventListener("click", Login)
+
+//Onclick handler for the login button
 function Login() {
+    //Get all form data
     let un = document.getElementById("usernameinp").value
     let pw = document.getElementById("pwinp").value
 
@@ -7,26 +11,41 @@ function Login() {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
-            let res = JSON.parse(xhr.responseText)
+            //Parse the respons
+            let res = JSON.parse(xhr.responseText);
+
+            // If the server wants us to redirect after making the request, we do that
             if (res.errcode == 300) {
-                window.location.replace(res.redirect)
+                window.location.replace(res.redirect);
+                return;
             }
+
+            // If there was an existing error message, remove it
             document.getElementById("errmsg")?.remove();
+
+            // Pre-create some of the nodes
             var node = document.createElement("H2");
             node.id = "errmsg"
             var textnode
 
+            // If there was an errorcode, handle it
             if (res.errcode == 1) {
                 textnode = document.createTextNode("Invalid login.");
-                node.appendChild(textnode);
-                document.getElementById("control-box").appendChild(node);
-            }
-            else if (res.loggedIn) {
-                window.location.replace(res.redirect)
+            } 
+            else if (res.errcode) {
+                textnode = document.createTextNode("There was an unknown error");
             }
 
+            node.appendChild(textnode);
+            document.getElementById("control-box").appendChild(node);
+            
+            //Lastly, if the user was just succesfully logged in, redirect according to the server
+            if (res.loggedIn) {
+                window.location.replace(res.redirect)
+            }
         }
     }
+    //Send the login attempt
     xhr.send(JSON.stringify({
         un: un,
         pw: pw
