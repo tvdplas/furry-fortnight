@@ -51,7 +51,7 @@ app.post("/register/", (req, res) => {
 // Logging in of users
 app.post("/login/", (req, res) => {
     if (req.LoggedInUser) {
-        res.send({errcode: 300, redirect: '/report.html'});
+        res.send({errcode: 300, redirect: '/profile'});
         return;
     }
     dbi.Login(req.body.un, req.body.pw, (dbres) => {
@@ -131,7 +131,7 @@ app.get("/checkquestion/:questionid", (req, res) => {
         return;
     }
 
-    dbi.CheckAnswer(req.params.questionid, req.query.answer, req.LoggedInUser, (answerres) => {
+    dbi.CheckAnswer(req.params.questionid, req.query.answer, req.LoggedInUser, req.cookies.sk, (answerres) => {
         // Sends the correctness of the answer, and the correct answer
         res.send(answerres);
     });
@@ -181,6 +181,17 @@ app.get("/getactivequestion/", (req, res) => {
         });
     }
 });
+
+app.get("/sessionquestions/", (req, res) => {
+    if (!req.LoggedInUser) {
+        res.status(400).send("Invalid request");
+    }
+    else {
+        dbi.GetSessionQuestions(req.LoggedInUser, req.cookies.sk, (dbres) => {
+            res.send(dbres);
+        });
+    }
+})
 
 app.listen(8080, () => {
     console.log("Server started on port 8080");

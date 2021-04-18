@@ -78,6 +78,14 @@ function SetupDB() {
                 CONSTRAINT Username_FK FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
             );
         `);
+        db.run(`
+            CREATE TABLE SessionQuestions(
+                Username VARCHAR(16) NOT NULL,
+                Sessiontoken VARCHAR(64) NOT NULL,
+                AnsweredCorrectly VARCHAR(5) NOT NULL,
+                CONSTRAINT Session_FK FOREIGN KEY (Username, SessionToken) REFERENCES Sessions(Username, Sessiontoken)
+            );
+        `);
 
         // Once all other databases have been created, the content can safely be added
         topics.forEach((t, tindex) => {
@@ -197,7 +205,7 @@ function GetTopics(cb) {
 // Checks the correctness of a answer
 // SHOULD ONLY BE CALLED IN COMBINATION WITH AN RU, DO NOT RESPOND TO
 // UNAUTHENTICATED USERS!!
-function CheckAnswer(questionid, answer, ruu, cb) {
+function CheckAnswer(questionid, answer, ruu, sk, cb) {
     db.each(`
         SELECT QuestionAnswer
         FROM Questions
@@ -208,6 +216,17 @@ function CheckAnswer(questionid, answer, ruu, cb) {
         if (err) console.log(err);
 
         let isCorrect = res.QuestionAnswer.toLowerCase() == answer.toLowerCase();
+        let correctnessString = isCorrect ? "true" : "false";
+
+        //Log every attempt at a question that the user makes
+        db.run(`
+            INSERT INTO SessionQuestions
+            VALUES (?, ?, ?);
+        `, 
+        [ruu, sk, correctnessString],
+        (err) => {
+            if (err) console.log(err)
+        });
 
         // If the answer was correct, we can add it to our table of
         // correctly answered questions for this user
@@ -372,6 +391,27 @@ function ChangeFullname(ruu, fn, cb) {
     })
 }
 
+function GetSessionQuestions(ruu, sk, cb) {
+    //First, select the count of all questions in this session
+    db.all(`
+        SELECT AnsweredCorrectly
+        FROM SessionQuestions
+        WHERE Username = ? AND Sessiontoken = ?
+
+    `,
+    [ruu, sk],
+    (err, res) => {
+        if (err) console.log(err);
+
+        let correctAnswers = 0;
+        res.forEach(a => {
+            if (a.AnsweredCorrectly == "true") correctAnswers++;
+        })
+
+        cb({QuestionCount: res.length, CQuestionCount: correctAnswers})
+    })
+}
+
 // Registers a new user based on a username, password and fullname
 function Register(un, pw, fn, cb) {
     // Checks if the username is within bounds
@@ -531,6 +571,7 @@ module.exports = {
     GetUserInfo: GetUserInfo,
     SetActiveQuestion: SetActiveQuestion,
     GetActiveQuestion: GetActiveQuestion,
+    GetSessionQuestions, GetSessionQuestions,
     ChangeFullname, ChangeFullname,
     CheckLogin: CheckLogin
 };

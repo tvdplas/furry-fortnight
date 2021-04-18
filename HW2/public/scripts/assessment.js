@@ -168,7 +168,7 @@ function checkQuestion(id, answer){
         else if(this.readyState == 4 && this.status == 400){
             var res = JSON.parse(xmlHttp.responseText);
             if(res.errcode == 6){
-                window.location.replace("/report.html")
+                window.location.replace("/profile")
             }
         }
       };

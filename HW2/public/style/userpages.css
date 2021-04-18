@@ -2,11 +2,29 @@
 
 #control-wrapper {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100vw;
     height: 100vh;
 }
+
+#control-wrapper a {
+    font-size: 0.9em;
+    padding: 1% 2%;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: white;
+    font-family: 'Helios Regular';
+    margin: 0;
+    margin-top: 1.5em;
+    width: 100%;
+}
+span {
+    width: 100%;
+    text-align: center;
+}
+
 #control-box {
     width: 400px;
     height: 600px;
@@ -17,6 +35,7 @@
     justify-content: center;
     border-radius: 12px;
     text-align: center;
+    margin-bottom: 1.5em;
 }
 #usernameinp{
     background-color: #1E1E1E;
@@ -100,6 +119,9 @@ h1{
     top:0;
     left:0;
     transform: none;
+}
+#control-box > h1 {
+    font-size: 2em;
 }
 
 @media only screen and (max-width: 600px) {
