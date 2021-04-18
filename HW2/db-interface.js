@@ -478,6 +478,8 @@ function Login(un, pw, cb) {
             
             //Let a session key be valid for 3 hours
             let expire = new Date(Date.now() - new Date().getTimezoneOffset()*60*1000 + 1000*60*60*3);
+
+            //We dont check for incorrect insertions because the chances of a duplicate un/sk combination are so astronomically small.
             db.run(`
                 INSERT INTO Sessions
                 VALUES (?, ?, ?)
