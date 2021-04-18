@@ -20,6 +20,8 @@
         </section>
     </div>
     <script>
+         WelcomeMsg();
+         function WelcomeMsg() {
          var welcomeXHR = new XMLHttpRequest();
             welcomeXHR.open("GET", '/userinfo/', false);
             welcomeXHR.onreadystatechange = () =>
@@ -37,6 +39,7 @@
 
             }
             welcomeXHR.send(null);
+        }
 
         var sessionQuestionsXHR = new XMLHttpRequest();
         sessionQuestionsXHR.open("GET", '/sessionquestions/', false);
@@ -114,7 +117,9 @@
                     }
                     else if (res.errcode == -2) {
                         textnode = document.createTextNode("Full name changed succesfully!")
+                        WelcomeMsg();
                     }
+
                     node.appendChild(textnode);
                     document.getElementById("fn-box").appendChild(node);
                 }
