@@ -149,14 +149,8 @@ function WelcomeMsg() {
 
 function Logout() {
     var allCookies = document.cookie.split(';');
-    for (var i = 0; i < allCookies.length; i++) {
-        console.log(allCookies[i].slice(0, 3))
-        if (allCookies[i].slice(0, 3) == "sk" || allCookies[i].slice(0, 3) == "un") {
-            document.cookie = allCookies[i] + "=;expires=" + new Date();
-            eraseCookie()
-        } else {
-            document.cookie = allCookies[i]
-        }
-    }
+    for (var i = 0; i < allCookies.length; i++)
+        document.cookie = allCookies[i] + "=;expires="
+        + new Date(0).toUTCString();
     location.reload(); 
 }
