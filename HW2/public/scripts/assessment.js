@@ -2,7 +2,7 @@ let main = document.getElementById('assessment-questions');
 var xmlHttp = new XMLHttpRequest();
 var selectedTopic, activeQuestion, selectedTopicID;
 let backButton = document.createElement("button");
-backButton.innerHTML = "&#8592;";
+backButton.appendChild(document.createTextNode("&#8592;"));
 backButton.classList.add("back-button");
 let buttonDiv = document.createElement("div");
 buttonDiv.classList.add("button-div");
@@ -164,9 +164,9 @@ function checkQuestion(id, answer){
             });
             if(!res.IsCorrect){
                 if(selectedTopic == "Notepad++"){
-                    link = "Notepadpp";
+                    link = "notepadpp";
                 }
-                p.innerHTML = 'Incorrect. The correct answer was: "'+ res.CorrectAnswer +'". For more info, go to the <a href="./' + link + '.html">' + selectedTopic + ' page</a>';
+                p.innerHTML = 'Incorrect. The correct answer was: "'+ res.CorrectAnswer +'". For more info, go to the <a href="./' + link.toLowerCase() + '.html">' + selectedTopic + ' page</a>';
                 resP.appendChild(document.createTextNode("✖"));
             }
             else{
